@@ -1,0 +1,95 @@
+.tiers {
+  display: grid;
+  gap: var(--pl-gap);
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 750px) {
+  .tiers--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .tiers--3,
+  .tiers--4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tier {
+  padding: 2.4rem 2.2rem;
+  transition: transform 0.4s var(--pl-ease);
+}
+
+.tier:hover {
+  transform: translateY(-4px);
+}
+
+.tier--highlight {
+  border-color: rgba(var(--color-button), 0.45);
+  box-shadow: 0 0 0 1px rgba(var(--color-button), 0.2);
+}
+
+.tier__tag {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(var(--color-button), 0.16);
+  border: 1px solid rgba(var(--color-button), 0.34);
+  color: rgb(var(--color-button));
+  margin-bottom: 1.4rem;
+}
+
+.tier__qty {
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  font-size: 4.4rem;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.tier__qty small {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.tier .price-tag {
+  margin: 1.4rem 0;
+}
+
+.tier__features {
+  list-style: none;
+  margin: 1.4rem 0 2rem;
+  padding: 0;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.tier__features li {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  font-size: 1.3rem;
+}
+
+.tier__features .icon {
+  color: rgb(var(--color-button));
+  margin-top: 0.2rem;
+}
+
+.tier__cta {
+  width: 100%;
+  justify-content: center;
+}
+
+.bundles__empty {
+  text-align: center;
+  opacity: 0.6;
+}
