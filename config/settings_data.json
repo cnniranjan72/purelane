@@ -69,6 +69,17 @@
             "secondary_button_label": "#ECE6F7",
             "shadow": "#010B09"
           }
+        },
+        "scheme-7": {
+          "settings": {
+            "background": "#F4F0FB",
+            "background_gradient": "",
+            "text": "#241A3D",
+            "button": "#4B3A8F",
+            "button_label": "#F4F0FB",
+            "secondary_button_label": "#4B3A8F",
+            "shadow": "#3A2C70"
+          }
         }
       },
       "type_header_font": "outfit_n7",
@@ -186,7 +197,7 @@
       "show_vendor": false,
       "show_cart_note": false,
       "cart_drawer_collection": "",
-      "cart_color_scheme": "scheme-1",
+      "cart_color_scheme": "scheme-7",
       "sections": {
         "main-password-header": {
           "type": "main-password-header",
