@@ -35,7 +35,7 @@
 }
 
 .reviews-rail__toggle:focus-visible,
-.review-card:focus-visible {
+.reviews-rail__track:focus-visible {
   outline: 2px solid rgb(var(--color-button));
   outline-offset: 3px;
 }

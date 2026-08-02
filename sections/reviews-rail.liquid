@@ -23,6 +23,7 @@
 >
   <div class="page-width">
     <div class="reviews-rail__head">
+      <h2 class="visually-hidden">Customer reviews</h2>
       {%- if section.settings.kicker != blank -%}
         <p class="section-heading__kicker">{{ section.settings.kicker | escape }}</p>
       {%- endif -%}
@@ -37,18 +38,24 @@
   </div>
 
   {%- if testimonial_blocks.size > 0 -%}
-    <reviews-marquee class="reviews-rail__marquee" aria-label="Customer reviews">
+    <reviews-marquee class="reviews-rail__marquee">
       <button type="button" class="reviews-rail__toggle" data-marquee-toggle aria-pressed="false">
         <span data-marquee-toggle-label>Pause</span>
       </button>
-      <div class="reviews-rail__track" data-marquee-track role="list" tabindex="0">
+      <div
+        class="reviews-rail__track"
+        data-marquee-track
+        role="region"
+        aria-label="Customer reviews"
+        tabindex="0"
+      >
         {%- comment -%} Rendered twice for a seamless CSS-only loop; duplicate copy is aria-hidden so screen readers see each review once. {%- endcomment -%}
         {%- for copy in (1..2) -%}
           <div class="reviews-rail__set" {% if copy == 2 %}aria-hidden="true"{% endif %}>
             {%- for block in testimonial_blocks -%}
               {%- assign testimonial = block.settings.testimonial_ref -%}
               {%- if testimonial != blank -%}
-                <article class="review-card pl-surface" role="listitem" {{ block.shopify_attributes }}>
+                <article class="review-card pl-surface" {{ block.shopify_attributes }}>
                   {%- if testimonial.rating.value != blank -%}
                     <div class="review-card__stars" aria-hidden="true">
                       {%- for i in (1..5) -%}

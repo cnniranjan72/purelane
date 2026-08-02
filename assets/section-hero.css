@@ -154,7 +154,7 @@
   transition: 0.3s var(--pl-ease);
 }
 
-.hero__dots button[aria-selected='true'] {
+.hero__dots button[aria-current='true'] {
   background: rgb(var(--color-button));
   width: 2rem;
 }

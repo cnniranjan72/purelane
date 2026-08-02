@@ -71,6 +71,7 @@
             <div
               class="hero__slide{% if forloop.first %} is-active{% endif %}"
               data-hero-slide
+              {% unless forloop.first %}aria-hidden="true"{% endunless %}
               {{ block.shopify_attributes }}
             >
               {%- if product != blank and product.featured_media != blank -%}
@@ -96,12 +97,11 @@
           {%- endfor -%}
 
           {%- if featured_blocks.size > 1 -%}
-            <div class="hero__dots" role="tablist" aria-label="Featured product">
+            <div class="hero__dots" role="group" aria-label="Featured product">
               {%- for block in featured_blocks -%}
                 <button
                   type="button"
-                  role="tab"
-                  aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                  aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
                   aria-label="Show product {{ forloop.index }} of {{ forloop.length }}"
                   data-hero-dot
                 ></button>

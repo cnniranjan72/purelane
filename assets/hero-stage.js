@@ -29,10 +29,12 @@ class HeroStage extends HTMLElement {
   show(index, userInitiated) {
     if (index === this.current) return;
     this.slides[this.current]?.classList.remove('is-active');
-    this.dots[this.current]?.setAttribute('aria-selected', 'false');
+    this.slides[this.current]?.setAttribute('aria-hidden', 'true');
+    this.dots[this.current]?.setAttribute('aria-current', 'false');
     this.current = index;
     this.slides[this.current]?.classList.add('is-active');
-    this.dots[this.current]?.setAttribute('aria-selected', 'true');
+    this.slides[this.current]?.removeAttribute('aria-hidden');
+    this.dots[this.current]?.setAttribute('aria-current', 'true');
     if (userInitiated) this.stop();
   }
 

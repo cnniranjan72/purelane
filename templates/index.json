@@ -9,7 +9,7 @@
         },
         "cta-2": {
           "type": "button",
-          "settings": { "label": "How it works", "link": "shopify://pages", "style": "secondary" }
+          "settings": { "label": "How it works", "link": "#shop", "style": "secondary" }
         },
         "badge-1": {
           "type": "badge",
