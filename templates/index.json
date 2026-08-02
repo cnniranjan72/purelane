@@ -73,7 +73,7 @@
         "kicker": "Bestsellers",
         "heading": "Loved by 30,000 homes",
         "lede": "Real Shopify products — sold-out state, missing images and long titles all handled automatically.",
-        "collection": "",
+        "collection": "bestsellers",
         "products_to_show": 8,
         "columns_desktop": 4,
         "columns_mobile": "2",

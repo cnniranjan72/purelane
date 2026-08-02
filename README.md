@@ -36,17 +36,13 @@ Liquid Handwash), and extremely-long-title (Plant-Based Multi-Surface
 Concentrate Cleaner…) cases. A "Bestsellers" collection groups the 8 core
 products for the shop grid.
 
-## One-time setup still needed in the theme editor
+## Content wiring
 
-Everything renders correctly without this (empty states are real, not
-placeholders left in by accident) — this is the last wiring step, done
-once in the Shopify Admin rather than in code:
-
-1. **Shop section** → Collection setting → pick "Bestsellers".
-2. **Combos section** → each "Combo" block → Combo picker → pick
-   "Kitchen essentials" / "Complete home bundle".
-3. **Reviews section** → each "Testimonial" block → Testimonial picker →
-   pick one of the four seeded testimonials (Anita, Priya, Sunita, Rohit S.).
+The Shop section's Collection setting, both Combo blocks, and all four
+Testimonial blocks are picked and saved on the live theme (not hardcoded —
+merchants can repoint any of them the same way in the theme editor). None
+of this is required for the page to render correctly: every section has a
+real, intentional empty state if a picker is ever cleared.
 
 ## Local development
 
