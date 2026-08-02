@@ -1,0 +1,185 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+@media screen and (min-width: 900px) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 560px) 1fr;
+    gap: 3.2rem;
+  }
+}
+
+.hero__copy {
+  max-width: 44rem;
+}
+
+.hero__heading {
+  font-size: clamp(4.2rem, 7vw, 8rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.6rem;
+}
+
+.hero__accent {
+  color: rgb(var(--color-button));
+}
+
+.hero__subheading {
+  max-width: 44ch;
+  font-size: 1.6rem;
+  opacity: 0.85;
+}
+
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 2.4rem;
+}
+
+/* -------- trust badges -------- */
+.badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  list-style: none;
+  margin: 2.4rem 0 0;
+  padding: 0;
+}
+
+.badge-list__item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.9rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--color-foreground), 0.16);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.badge-list__item .icon {
+  color: rgb(var(--color-button));
+}
+
+/* -------- media / featured product stage -------- */
+.hero__media {
+  position: relative;
+  min-height: 1px;
+}
+
+.hero__media-image img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 2.4rem 4rem rgba(0, 0, 0, 0.35));
+}
+
+.hero__stage {
+  display: block;
+  position: relative;
+  min-height: 32rem;
+}
+
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--pl-ease);
+}
+
+.hero__slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  position: relative;
+}
+
+.hero__slide-media img {
+  max-height: 32rem;
+  width: auto;
+  margin: 0 auto;
+  filter: drop-shadow(0 2.4rem 4rem rgba(0, 0, 0, 0.4));
+}
+
+.hero__slide-media--empty {
+  width: 60%;
+  margin: 0 auto;
+  opacity: 0.5;
+}
+
+.hero__price-tag {
+  margin-top: 1.6rem;
+  padding: 1.2rem 1.6rem;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-self: flex-start;
+}
+
+.hero__price-label {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(var(--color-button));
+}
+
+.hero__dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.hero__dots button {
+  width: 0.8rem;
+  height: 0.8rem;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(var(--color-foreground), 0.28);
+  cursor: pointer;
+  transition: 0.3s var(--pl-ease);
+}
+
+.hero__dots button[aria-selected='true'] {
+  background: rgb(var(--color-button));
+  width: 2rem;
+}
+
+.hero__dots button:focus-visible {
+  outline: 2px solid rgb(var(--color-button));
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 899px) {
+  .hero__heading,
+  .hero__subheading,
+  .hero__cta,
+  .badge-list {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .hero__copy {
+    max-width: none;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero__stage {
+    min-height: 24rem;
+  }
+}

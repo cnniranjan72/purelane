@@ -1,0 +1,274 @@
+{{ 'purelane-shared.css' | asset_url | stylesheet_tag }}
+{{ 'section-hero.css' | asset_url | stylesheet_tag }}
+{%- assign featured_blocks = section.blocks | where: 'type', 'featured_product' -%}
+{%- assign button_blocks = section.blocks | where: 'type', 'button' -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  class="hero color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+  id="hero-{{ section.id }}"
+>
+  <div class="hero__grid page-width">
+    <div class="hero__copy">
+      <h1 class="hero__heading{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {%- liquid
+          assign heading = section.settings.heading
+          assign accent = section.settings.accent_word
+        -%}
+        {%- if accent != blank and heading contains accent -%}
+          {%- assign parts = heading | split: accent -%}
+          {{- parts[0] -}}<span class="hero__accent">{{ accent }}</span>{{- parts[1] -}}
+        {%- else -%}
+          {{- heading -}}
+        {%- endif -%}
+      </h1>
+
+      {%- if section.settings.subheading != blank -%}
+        <div class="hero__subheading rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+          {{ section.settings.subheading }}
+        </div>
+      {%- endif -%}
+
+      {%- if button_blocks.size > 0 -%}
+        <div class="hero__cta{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+          {%- for block in button_blocks -%}
+            <a
+              {% if block.settings.link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ block.settings.link }}"
+              {% endif %}
+              class="button{% if block.settings.style == 'secondary' %} button--secondary{% else %} button--primary{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {{- block.settings.label | escape -}}
+            </a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {% render 'badge-list', blocks: section.blocks %}
+    </div>
+
+    <div class="hero__media">
+      {%- if featured_blocks.size > 0 -%}
+        <hero-stage class="hero__stage" data-count="{{ featured_blocks.size }}">
+          {%- for block in featured_blocks -%}
+            {%- assign product = block.settings.product -%}
+            <div
+              class="hero__slide{% if forloop.first %} is-active{% endif %}"
+              data-hero-slide
+              {{ block.shopify_attributes }}
+            >
+              {%- if product != blank and product.featured_media != blank -%}
+                <div class="hero__slide-media animate--{{ section.settings.image_behavior }}">
+                  {%- if forloop.first -%}
+                    {{ product.featured_media | image_url: width: 700 | image_tag: alt: product.featured_media.alt | default: product.title, fetchpriority: 'high' }}
+                  {%- else -%}
+                    {{ product.featured_media | image_url: width: 700 | image_tag: alt: product.featured_media.alt | default: product.title, loading: 'lazy' }}
+                  {%- endif -%}
+                </div>
+                <div class="hero__price-tag pl-surface">
+                  {%- if block.settings.label != blank -%}
+                    <span class="hero__price-label">{{ block.settings.label | escape }}</span>
+                  {%- endif -%}
+                  {% render 'price-tag', product: product, show_discount_percent: true %}
+                </div>
+              {%- elsif product != blank -%}
+                <div class="hero__slide-media hero__slide-media--empty">
+                  {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+
+          {%- if featured_blocks.size > 1 -%}
+            <div class="hero__dots" role="tablist" aria-label="Featured product">
+              {%- for block in featured_blocks -%}
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                  aria-label="Show product {{ forloop.index }} of {{ forloop.length }}"
+                  data-hero-dot
+                ></button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </hero-stage>
+      {%- elsif section.settings.image != blank -%}
+        <div class="hero__media-image animate--{{ section.settings.image_behavior }}">
+          {{
+            section.settings.image
+            | image_url: width: 900
+            | image_tag: alt: section.settings.image.alt | default: section.settings.heading, fetchpriority: 'high', sizes: '(min-width: 900px) 44vw, 88vw', widths: '400, 550, 700, 900, 1300, 1800'
+          }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- if featured_blocks.size > 1 -%}
+  <script src="{{ 'hero-stage.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "class": "section section--hero",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Clean That Lasts"
+    },
+    {
+      "type": "text",
+      "id": "accent_word",
+      "label": "Accent word",
+      "info": "If this word appears in the heading, it's highlighted in the accent color.",
+      "default": "Lasts"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Homecare that works on the toughest grime, made from plants. Kind to your home, your family and the world outside it.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Used only if no featured product blocks are added below."
+    },
+    {
+      "type": "select",
+      "id": "image_behavior",
+      "label": "Image motion",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "ambient", "label": "Ambient movement" },
+        { "value": "zoom-in", "label": "Zoom in on scroll" }
+      ],
+      "default": "ambient",
+      "info": "Automatically disabled for visitors who prefer reduced motion."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-6"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Shop now" },
+        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" }
+          ],
+          "default": "primary"
+        }
+      ]
+    },
+    {
+      "type": "badge",
+      "name": "Trust badge",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "no-chemicals", "label": "No chemicals" }
+          ],
+          "default": "leaf"
+        },
+        { "type": "text", "id": "label", "label": "Label", "default": "Plant powered" }
+      ]
+    },
+    {
+      "type": "featured_product",
+      "name": "Featured product",
+      "limit": 3,
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Price tag label",
+          "default": "Single bottle",
+          "info": "e.g. \"Single bottle\" or \"Any 3 products\""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "blocks": [
+        { "type": "button", "settings": { "label": "Shop now", "style": "primary" } },
+        { "type": "button", "settings": { "label": "How it works", "style": "secondary" } },
+        { "type": "badge", "settings": { "icon": "leaf", "label": "Plant powered" } },
+        { "type": "badge", "settings": { "icon": "shield", "label": "Safe for kids & pets" } },
+        { "type": "badge", "settings": { "icon": "no-chemicals", "label": "Zero harsh chemicals" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,51 @@
+// Cross-fades between a hero section's featured-product slides. Only
+// loaded when a section has more than one featured_product block (see
+// hero.liquid); a single slide needs no JS at all and renders correctly
+// with CSS alone.
+class HeroStage extends HTMLElement {
+  connectedCallback() {
+    this.slides = Array.from(this.querySelectorAll('[data-hero-slide]'));
+    this.dots = Array.from(this.querySelectorAll('[data-hero-dot]'));
+    this.current = 0;
+    this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    this.dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => this.show(index, true));
+    });
+
+    if (this.slides.length > 1 && !this.reducedMotion) {
+      this.addEventListener('mouseenter', () => this.stop());
+      this.addEventListener('mouseleave', () => this.start());
+      this.addEventListener('focusin', () => this.stop());
+      this.addEventListener('focusout', () => this.start());
+      this.start();
+    }
+  }
+
+  disconnectedCallback() {
+    this.stop();
+  }
+
+  show(index, userInitiated) {
+    if (index === this.current) return;
+    this.slides[this.current]?.classList.remove('is-active');
+    this.dots[this.current]?.setAttribute('aria-selected', 'false');
+    this.current = index;
+    this.slides[this.current]?.classList.add('is-active');
+    this.dots[this.current]?.setAttribute('aria-selected', 'true');
+    if (userInitiated) this.stop();
+  }
+
+  start() {
+    this.stop();
+    this.timer = window.setInterval(() => {
+      this.show((this.current + 1) % this.slides.length);
+    }, 4200);
+  }
+
+  stop() {
+    if (this.timer) window.clearInterval(this.timer);
+  }
+}
+
+customElements.define('hero-stage', HeroStage);
