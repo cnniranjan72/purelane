@@ -1,75 +1,140 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "hero": {
+      "type": "hero",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "cta-1": {
+          "type": "button",
+          "settings": { "label": "Shop now", "link": "shopify://collections/all", "style": "primary" }
+        },
+        "cta-2": {
+          "type": "button",
+          "settings": { "label": "How it works", "link": "shopify://pages", "style": "secondary" }
+        },
+        "badge-1": {
+          "type": "badge",
+          "settings": { "icon": "leaf", "label": "Plant powered" }
+        },
+        "badge-2": {
+          "type": "badge",
+          "settings": { "icon": "shield", "label": "Safe for kids & pets" }
+        },
+        "badge-3": {
+          "type": "badge",
+          "settings": { "icon": "no-chemicals", "label": "Zero harsh chemicals" }
+        }
+      },
+      "block_order": ["cta-1", "cta-2", "badge-1", "badge-2", "badge-3"],
+      "settings": {
+        "heading": "Clean That Lasts",
+        "accent_word": "Lasts",
+        "subheading": "<p>Homecare that works on the toughest grime, made from plants. Kind to your home, your family and the world outside it.</p>",
+        "image_behavior": "ambient",
+        "color_scheme": "scheme-6",
+        "padding_top": 140,
+        "padding_bottom": 48
+      }
+    },
+    "shop": {
+      "type": "shop",
+      "settings": {
+        "kicker": "Bestsellers",
+        "heading": "Loved by 30,000 homes",
+        "lede": "Real Shopify products — sold-out state, missing images and long titles all handled automatically.",
+        "collection": "",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "quick_add": "standard",
+        "show_view_all": true,
+        "color_scheme": "scheme-6",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "combos": {
+      "type": "combos",
+      "blocks": {
+        "combo-1": { "type": "combo", "settings": {} },
+        "combo-2": { "type": "combo", "settings": {} },
+        "combo-3": { "type": "combo", "settings": {} }
+      },
+      "block_order": ["combo-1", "combo-2", "combo-3"],
+      "settings": {
+        "kicker": "Pre-built to save you money",
+        "heading": "Best selling combos",
+        "lede": "Swipe through the boxes people order most.",
+        "color_scheme": "scheme-6",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "bundles": {
+      "type": "bundles",
+      "blocks": {
+        "tier-1": {
+          "type": "tier",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "tag": "Starter",
+            "quantity": 2,
+            "price": 349,
+            "compare_at_price": 598,
+            "features": "Pick any two products\nFree shipping across India",
+            "cta_label": "Build this box"
           }
         },
-        "button": {
-          "type": "buttons",
+        "tier-2": {
+          "type": "tier",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "tag": "Most popular",
+            "quantity": 3,
+            "price": 499,
+            "compare_at_price": 897,
+            "features": "Pick any three products\nCovers kitchen and laundry\nFree shipping across India",
+            "highlight": true,
+            "cta_label": "Build this box"
+          }
+        },
+        "tier-3": {
+          "type": "tier",
+          "settings": {
+            "tag": "Whole home",
+            "quantity": 5,
+            "price": 799,
+            "compare_at_price": 1495,
+            "features": "Pick any five products\nEvery room in one order\nFree shipping across India",
+            "cta_label": "Build this box"
           }
         }
       },
-      "block_order": [
-        "heading",
-        "button"
-      ],
+      "block_order": ["tier-1", "tier-2", "tier-3"],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "kicker": "Build your bundle",
+        "heading": "One box. Every room.",
+        "lede": "Mix and match across kitchen, laundry, home and skin.",
+        "color_scheme": "scheme-6",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "reviews": {
+      "type": "reviews-rail",
+      "blocks": {
+        "t-1": { "type": "testimonial", "settings": {} },
+        "t-2": { "type": "testimonial", "settings": {} },
+        "t-3": { "type": "testimonial", "settings": {} },
+        "t-4": { "type": "testimonial", "settings": {} }
+      },
+      "block_order": ["t-1", "t-2", "t-3", "t-4"],
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "kicker": "That's what they said",
+        "aggregate_rating": "4.8",
+        "aggregate_note": "from 8,000+ reviews",
+        "color_scheme": "scheme-6",
+        "padding_top": 48,
+        "padding_bottom": 64
       }
     }
   },
-  "order": [
-    "image_banner",
-    "featured_collection"
-  ]
+  "order": ["hero", "shop", "combos", "bundles", "reviews"]
 }
