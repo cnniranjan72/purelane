@@ -1,0 +1,151 @@
+{{ 'purelane-shared.css' | asset_url | stylesheet_tag }}
+{{ 'section-reviews-rail.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- assign testimonial_blocks = section.blocks | where: 'type', 'testimonial' -%}
+
+<section
+  id="reviews"
+  class="reviews-rail color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+>
+  <div class="page-width">
+    <div class="reviews-rail__head">
+      {%- if section.settings.kicker != blank -%}
+        <p class="section-heading__kicker">{{ section.settings.kicker | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.aggregate_rating != blank -%}
+        <p class="reviews-rail__aggregate">
+          <span class="reviews-rail__stars" aria-hidden="true">★★★★★</span>
+          <strong>{{ section.settings.aggregate_rating }}</strong>
+          {{ section.settings.aggregate_note | escape }}
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if testimonial_blocks.size > 0 -%}
+    <reviews-marquee class="reviews-rail__marquee" aria-label="Customer reviews">
+      <button type="button" class="reviews-rail__toggle" data-marquee-toggle aria-pressed="false">
+        <span data-marquee-toggle-label>Pause</span>
+      </button>
+      <div class="reviews-rail__track" data-marquee-track role="list" tabindex="0">
+        {%- comment -%} Rendered twice for a seamless CSS-only loop; duplicate copy is aria-hidden so screen readers see each review once. {%- endcomment -%}
+        {%- for copy in (1..2) -%}
+          <div class="reviews-rail__set" {% if copy == 2 %}aria-hidden="true"{% endif %}>
+            {%- for block in testimonial_blocks -%}
+              {%- assign testimonial = block.settings.testimonial_ref -%}
+              {%- if testimonial != blank -%}
+                <article class="review-card pl-surface" role="listitem" {{ block.shopify_attributes }}>
+                  {%- if testimonial.rating.value != blank -%}
+                    <div class="review-card__stars" aria-hidden="true">
+                      {%- for i in (1..5) -%}
+                        {%- if i <= testimonial.rating.value -%}★{%- else -%}☆{%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
+                  {%- if testimonial.headline.value != blank -%}
+                    <h3 class="review-card__headline">{{ testimonial.headline.value | escape }}</h3>
+                  {%- endif -%}
+                  {%- if testimonial.quote.value != blank -%}
+                    <p class="review-card__quote">{{ testimonial.quote.value }}</p>
+                  {%- endif -%}
+                  <p class="review-card__who">
+                    <span class="review-card__author">{{ testimonial.author.value | escape }}</span>
+                    {%- if testimonial.detail.value != blank -%}
+                      <span class="review-card__detail">{{ testimonial.detail.value | escape }}</span>
+                    {%- endif -%}
+                  </p>
+                </article>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </reviews-marquee>
+  {%- else -%}
+    <p class="reviews-rail__empty page-width">Add a testimonial block and pick a review to feature it here.</p>
+  {%- endif -%}
+</section>
+
+<script src="{{ 'reviews-marquee.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Reviews rail",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "That's what they said" },
+    { "type": "text", "id": "aggregate_rating", "label": "Aggregate rating", "default": "4.8" },
+    {
+      "type": "text",
+      "id": "aggregate_note",
+      "label": "Aggregate note",
+      "default": "from 8,000+ reviews"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-6"
+    },
+    { "type": "header", "content": "Padding" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "metaobject",
+          "id": "testimonial_ref",
+          "metaobject_type": "testimonial",
+          "label": "Testimonial"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews rail",
+      "blocks": [{ "type": "testimonial" }, { "type": "testimonial" }, { "type": "testimonial" }, { "type": "testimonial" }]
+    }
+  ]
+}
+{% endschema %}

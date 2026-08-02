@@ -1,0 +1,119 @@
+.reviews-rail__head {
+  text-align: center;
+  margin-bottom: 2.2rem;
+}
+
+.reviews-rail__aggregate {
+  margin: 0.6rem 0 0;
+  font-size: 1.4rem;
+}
+
+.reviews-rail__stars {
+  color: rgb(var(--color-button));
+  letter-spacing: 0.1em;
+  margin-right: 0.6rem;
+}
+
+.reviews-rail__marquee {
+  position: relative;
+  display: block;
+}
+
+.reviews-rail__toggle {
+  position: absolute;
+  top: -4.4rem;
+  right: 1.8rem;
+  z-index: 2;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--color-foreground), 0.24);
+  background: rgb(var(--color-background));
+}
+
+.reviews-rail__toggle:focus-visible,
+.review-card:focus-visible {
+  outline: 2px solid rgb(var(--color-button));
+  outline-offset: 3px;
+}
+
+.reviews-rail__track {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding: 0.4rem 1.8rem 1.2rem;
+}
+
+.reviews-rail__set {
+  display: flex;
+  gap: var(--pl-gap);
+  flex: 0 0 auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reviews-rail__track {
+    animation: reviews-marquee 42s linear infinite;
+  }
+
+  .reviews-rail__track.is-paused {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes reviews-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.review-card {
+  flex: 0 0 26rem;
+  padding: 1.8rem;
+}
+
+.review-card__stars {
+  color: rgb(var(--color-button));
+  letter-spacing: 0.12em;
+  margin-bottom: 1rem;
+}
+
+.review-card__headline {
+  margin: 0 0 0.8rem;
+  font-size: 1.5rem;
+}
+
+.review-card__quote {
+  font-size: 1.3rem;
+  opacity: 0.85;
+  margin: 0 0 1.4rem;
+}
+
+.review-card__who {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.review-card__detail {
+  font-weight: 500;
+  text-transform: none;
+  opacity: 0.6;
+  letter-spacing: normal;
+}
+
+.review-card__detail::before {
+  content: ' · ';
+}
+
+.reviews-rail__empty {
+  text-align: center;
+  opacity: 0.6;
+}
