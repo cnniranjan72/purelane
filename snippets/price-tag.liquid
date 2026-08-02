@@ -1,0 +1,47 @@
+{% comment %}
+  Renders price + compare-at + a computed discount, shared by shop cards,
+  combo cards and bundle tiers. The discount is always computed from real
+  numbers here, never accepted as pre-typed text — see Architecture.md,
+  "Hero pricing (fix)".
+
+  Accepts, in one of two modes:
+  - product: {Object} a Shopify product — uses product.price / product.compare_at_price (real store data)
+  - price / compare_at_price: {Number} major-currency-unit numbers (e.g. 349) — for content that
+    isn't tied to one product, such as a bundle tier. Still real numbers, just merchant-entered ones.
+  - show_discount_percent: {Boolean} show "33% off" (optional)
+  - show_savings_amount: {Boolean} show "Save ₹249" (optional)
+  - size: {String} 'small' or 'large', default 'large'
+
+  Usage:
+  {% render 'price-tag', product: card_product, show_discount_percent: true %}
+  {% render 'price-tag', price: block.settings.price, compare_at_price: block.settings.compare_at_price, show_savings_amount: true %}
+{% endcomment %}
+{%- liquid
+  if product
+    assign current = product.price
+    assign compare = product.compare_at_price
+  else
+    assign current = price | times: 100
+    if compare_at_price and compare_at_price != blank
+      assign compare = compare_at_price | times: 100
+    endif
+  endif
+
+  assign on_sale = false
+  if compare and compare > current
+    assign on_sale = true
+    assign discount_amount = compare | minus: current
+    assign discount_percent = discount_amount | times: 100 | divided_by: compare | round
+  endif
+-%}
+<span class="price-tag price-tag--{{ size | default: 'large' }}">
+  <strong class="price-tag__current">{{ current | money }}</strong>
+  {%- if on_sale -%}
+    <s class="price-tag__compare">{{ compare | money }}</s>
+    {%- if show_discount_percent -%}
+      <em class="price-tag__discount">{{ discount_percent }}% off</em>
+    {%- elsif show_savings_amount -%}
+      <em class="price-tag__discount">Save {{ discount_amount | money }}</em>
+    {%- endif -%}
+  {%- endif -%}
+</span>

@@ -1,0 +1,23 @@
+{% comment %}
+  Renders a row of icon+label trust badges from section blocks. Used by
+  the hero; written generically enough to be reused by any future section
+  that needs the same "Plant powered / Kids & pet safe / Zero harsh
+  chemicals" pattern.
+
+  Accepts:
+  - blocks: {Array} section.blocks already filtered to type == 'badge'
+
+  Usage:
+  {% render 'badge-list', blocks: section.blocks %}
+{% endcomment %}
+{%- assign badge_blocks = blocks | where: 'type', 'badge' -%}
+{%- if badge_blocks.size > 0 -%}
+  <ul class="badge-list" role="list">
+    {%- for block in badge_blocks -%}
+      <li class="badge-list__item" {{ block.shopify_attributes }}>
+        {% render 'icon', name: block.settings.icon, size: 22 %}
+        <span>{{ block.settings.label | escape }}</span>
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

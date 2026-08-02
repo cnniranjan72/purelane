@@ -1,0 +1,35 @@
+{% comment %}
+  Renders a section's kicker + heading + divider rule + lede, the
+  "panel-head" pattern the prototype pastes identically into four
+  different sections. Centralized here so all four stay in sync.
+
+  Accepts:
+  - kicker: {String} small eyebrow label above the heading (optional)
+  - heading: {String} required
+  - lede: {String} supporting paragraph below the heading (optional)
+  - heading_tag: {String} 'h2' or 'h3', default 'h2'
+
+  Usage:
+  {% render 'section-heading', kicker: section.settings.kicker, heading: section.settings.heading, lede: section.settings.lede %}
+{% endcomment %}
+{%- liquid
+  assign tag = heading_tag | default: 'h2'
+-%}
+<div class="section-heading">
+  {%- if kicker != blank -%}
+    <p class="section-heading__kicker">{{ kicker | escape }}</p>
+  {%- endif -%}
+  {%- if tag == 'h3' -%}
+    <h3 class="section-heading__title">{{ heading | escape }}</h3>
+  {%- else -%}
+    <h2 class="section-heading__title">{{ heading | escape }}</h2>
+  {%- endif -%}
+  <div class="section-heading__rule" aria-hidden="true">
+    <i></i>
+    {% render 'icon', name: 'leaf', size: 16 %}
+    <i></i>
+  </div>
+  {%- if lede != blank -%}
+    <p class="section-heading__lede">{{ lede | escape }}</p>
+  {%- endif -%}
+</div>

@@ -1,0 +1,108 @@
+/* Shared tokens and component styles for the Purelane homepage sections
+   (hero, shop grid, combos, bundles, reviews rail). Loaded once per
+   section via stylesheet_tag; Dawn dedupes identical hrefs at the HTTP
+   cache layer the same way it does for component-price.css etc. */
+
+:root {
+  --pl-radius: 22px;
+  --pl-radius-sm: 14px;
+  --pl-gap: 14px;
+  --pl-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* -------- glass surface, used by cards across shop/combos/bundles -------- */
+.pl-surface {
+  background: var(--color-background);
+  border: 1px solid rgba(var(--color-foreground), 0.09);
+  border-radius: var(--pl-radius);
+  transition:
+    transform 0.35s var(--pl-ease),
+    box-shadow 0.35s var(--pl-ease);
+}
+
+/* -------- section heading -------- */
+.section-heading {
+  text-align: center;
+  max-width: 46rem;
+  margin: 0 auto 2.6rem;
+}
+
+.section-heading__kicker {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin: 0;
+}
+
+.section-heading__title {
+  margin: 0.6rem 0 0;
+}
+
+.section-heading__rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  max-width: 15rem;
+  margin: 1.2rem auto 0;
+  color: rgb(var(--color-foreground));
+  opacity: 0.55;
+}
+
+.section-heading__rule i {
+  height: 1px;
+  flex: 1 1 auto;
+  background: currentColor;
+  opacity: 0.4;
+}
+
+.section-heading__lede {
+  margin: 1rem auto 0;
+  opacity: 0.75;
+  max-width: 40ch;
+}
+
+/* -------- icon -------- */
+.icon {
+  flex: 0 0 auto;
+}
+
+/* -------- price tag, used by shop cards / combo cards / bundle tiers -------- */
+.price-tag {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.price-tag__current {
+  font-family: var(--font-heading-family);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.price-tag--small .price-tag__current {
+  font-size: 1.5rem;
+}
+
+.price-tag__compare {
+  opacity: 0.5;
+  font-size: 1.3rem;
+}
+
+.price-tag__discount {
+  font-style: normal;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(var(--color-button));
+}
+
+@media screen and (max-width: 749px) {
+  .section-heading {
+    margin-bottom: 2rem;
+  }
+}
