@@ -26,8 +26,7 @@ Reusable pieces shared across them: `snippets/icon.liquid`,
 ## Dev store
 
 - URL: `https://purelane-jt05iiqz.myshopify.com`
-- Storefront password: *(set one in Online Store → Preferences if the
-  store doesn't already have one, and note it here before sending)*
+- Storefront password: `troopod2026`
 - Theme: "Purelane (dev)" — pushed, unpublished (the store's live theme
   is untouched)
 
