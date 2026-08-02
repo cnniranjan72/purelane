@@ -23,6 +23,15 @@ Reusable pieces shared across them: `snippets/icon.liquid`,
 `snippets/price-tag.liquid`, `snippets/section-heading.liquid`,
 `snippets/badge-list.liquid`, `assets/purelane-shared.css`.
 
+Three bonus sections beyond the required five, built to the same
+theme-editor-safe standard and easy to remove without breaking anything:
+
+| Section | id | File |
+|---|---|---|
+| Ingredients | `#ingredients` | `sections/ingredients.liquid` |
+| How it works | `#how-it-works` | `sections/how-it-works.liquid` |
+| Why it works | `#why-it-works` | `sections/why-it-works.liquid` |
+
 ## Dev store
 
 - URL: `https://purelane-jt05iiqz.myshopify.com`
@@ -43,6 +52,24 @@ Testimonial blocks are picked and saved on the live theme (not hardcoded —
 merchants can repoint any of them the same way in the theme editor). None
 of this is required for the page to render correctly: every section has a
 real, intentional empty state if a picker is ever cleared.
+
+## Cart, checkout and customer accounts
+
+The cart page and cart notification use a new light scheme (`scheme-7`,
+`config/settings_data.json`) instead of Dawn's flat white default, and both
+are confirmed working end-to-end (add-to-cart updates the header count and
+cart page in real time; quantity/remove run over AJAX).
+
+This store uses Shopify's newer hosted **Customer Accounts** (accessed via
+`/account`, served from `shopify.com/<id>/account`, not the theme). That
+means `templates/customers/*.json` render nothing there — editing them was
+a dead end. Branding for that surface, plus checkout, lives in **Settings
+→ Customer accounts → Configurations → Edit → branding icon**; it's set
+there to the same brand purple, Outfit and Inter fonts, not in theme code.
+
+The footer newsletter form is Dawn's unmodified `{% form 'customer' %}` —
+tested live with a throwaway email, confirmed a real `Subscribed` customer
+record in Admin, then deleted the test record.
 
 ## Local development
 
