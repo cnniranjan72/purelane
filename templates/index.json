@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -5,26 +14,49 @@
       "blocks": {
         "cta-1": {
           "type": "button",
-          "settings": { "label": "Shop now", "link": "shopify://collections/all", "style": "primary" }
+          "settings": {
+            "label": "Shop now",
+            "link": "shopify://collections/all",
+            "style": "primary"
+          }
         },
         "cta-2": {
           "type": "button",
-          "settings": { "label": "How it works", "link": "#shop", "style": "secondary" }
+          "settings": {
+            "label": "How it works",
+            "link": "#shop",
+            "style": "secondary"
+          }
         },
         "badge-1": {
           "type": "badge",
-          "settings": { "icon": "leaf", "label": "Plant powered" }
+          "settings": {
+            "icon": "leaf",
+            "label": "Plant powered"
+          }
         },
         "badge-2": {
           "type": "badge",
-          "settings": { "icon": "shield", "label": "Safe for kids & pets" }
+          "settings": {
+            "icon": "shield",
+            "label": "Safe for kids & pets"
+          }
         },
         "badge-3": {
           "type": "badge",
-          "settings": { "icon": "no-chemicals", "label": "Zero harsh chemicals" }
+          "settings": {
+            "icon": "no-chemicals",
+            "label": "Zero harsh chemicals"
+          }
         }
       },
-      "block_order": ["cta-1", "cta-2", "badge-1", "badge-2", "badge-3"],
+      "block_order": [
+        "cta-1",
+        "cta-2",
+        "badge-1",
+        "badge-2",
+        "badge-3"
+      ],
       "settings": {
         "heading": "Clean That Lasts",
         "accent_word": "Lasts",
@@ -55,11 +87,23 @@
     "combos": {
       "type": "combos",
       "blocks": {
-        "combo-1": { "type": "combo", "settings": {} },
-        "combo-2": { "type": "combo", "settings": {} },
-        "combo-3": { "type": "combo", "settings": {} }
+        "combo-1": {
+          "type": "combo",
+          "settings": {
+            "combo_ref": "kitchen-essentials"
+          }
+        },
+        "combo-2": {
+          "type": "combo",
+          "settings": {
+            "combo_ref": "complete-home-bundle"
+          }
+        }
       },
-      "block_order": ["combo-1", "combo-2", "combo-3"],
+      "block_order": [
+        "combo-1",
+        "combo-2"
+      ],
       "settings": {
         "kicker": "Pre-built to save you money",
         "heading": "Best selling combos",
@@ -80,7 +124,9 @@
             "price": 349,
             "compare_at_price": 598,
             "features": "Pick any two products\nFree shipping across India",
-            "cta_label": "Build this box"
+            "highlight": false,
+            "cta_label": "Build this box",
+            "cta_link": ""
           }
         },
         "tier-2": {
@@ -92,7 +138,8 @@
             "compare_at_price": 897,
             "features": "Pick any three products\nCovers kitchen and laundry\nFree shipping across India",
             "highlight": true,
-            "cta_label": "Build this box"
+            "cta_label": "Build this box",
+            "cta_link": ""
           }
         },
         "tier-3": {
@@ -103,11 +150,17 @@
             "price": 799,
             "compare_at_price": 1495,
             "features": "Pick any five products\nEvery room in one order\nFree shipping across India",
-            "cta_label": "Build this box"
+            "highlight": false,
+            "cta_label": "Build this box",
+            "cta_link": ""
           }
         }
       },
-      "block_order": ["tier-1", "tier-2", "tier-3"],
+      "block_order": [
+        "tier-1",
+        "tier-2",
+        "tier-3"
+      ],
       "settings": {
         "kicker": "Build your bundle",
         "heading": "One box. Every room.",
@@ -120,12 +173,37 @@
     "reviews": {
       "type": "reviews-rail",
       "blocks": {
-        "t-1": { "type": "testimonial", "settings": {} },
-        "t-2": { "type": "testimonial", "settings": {} },
-        "t-3": { "type": "testimonial", "settings": {} },
-        "t-4": { "type": "testimonial", "settings": {} }
+        "t-1": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_ref": "anita-laundry-detergent"
+          }
+        },
+        "t-2": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_ref": "our-old-dishwash-left-my-help-with-dry-cracked-skin-that-stopped-completely-after-we-switched"
+          }
+        },
+        "t-3": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_ref": "very-soft-on-hands-with-a-lovely-fragrance-and-it-feels-good-to-be-using-far-less-plastic"
+          }
+        },
+        "t-4": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_ref": "we-switched-because-chemical-floor-cleaners-were-setting-off-my-dogs-allergies-no-reactions-since"
+          }
+        }
       },
-      "block_order": ["t-1", "t-2", "t-3", "t-4"],
+      "block_order": [
+        "t-1",
+        "t-2",
+        "t-3",
+        "t-4"
+      ],
       "settings": {
         "kicker": "That's what they said",
         "aggregate_rating": "4.8",
@@ -136,5 +214,11 @@
       }
     }
   },
-  "order": ["hero", "shop", "combos", "bundles", "reviews"]
+  "order": [
+    "hero",
+    "shop",
+    "combos",
+    "bundles",
+    "reviews"
+  ]
 }
