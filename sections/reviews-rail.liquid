@@ -51,43 +51,44 @@
         <span data-marquee-toggle-label>Pause</span>
       </button>
       <div
-        class="reviews-rail__track"
-        data-marquee-track
+        class="reviews-rail__viewport"
         role="region"
         aria-label="Customer reviews"
         tabindex="0"
       >
-        {%- comment -%} Rendered twice for a seamless CSS-only loop; duplicate copy is aria-hidden so screen readers see each review once. {%- endcomment -%}
-        {%- for copy in (1..2) -%}
-          <div class="reviews-rail__set" {% if copy == 2 %}aria-hidden="true"{% endif %}>
-            {%- for block in testimonial_blocks -%}
-              {%- assign testimonial = block.settings.testimonial_ref -%}
-              {%- if testimonial != blank -%}
-                <article class="review-card pl-surface" {{ block.shopify_attributes }}>
-                  {%- if testimonial.rating.value != blank -%}
-                    <div class="review-card__stars" aria-hidden="true">
-                      {%- for i in (1..5) -%}
-                        {%- if i <= testimonial.rating.value -%}★{%- else -%}☆{%- endif -%}
-                      {%- endfor -%}
-                    </div>
-                  {%- endif -%}
-                  {%- if testimonial.headline.value != blank -%}
-                    <h3 class="review-card__headline">{{ testimonial.headline.value | escape }}</h3>
-                  {%- endif -%}
-                  {%- if testimonial.quote.value != blank -%}
-                    <p class="review-card__quote">{{ testimonial.quote.value }}</p>
-                  {%- endif -%}
-                  <p class="review-card__who">
-                    <span class="review-card__author">{{ testimonial.author.value | escape }}</span>
-                    {%- if testimonial.detail.value != blank -%}
-                      <span class="review-card__detail">{{ testimonial.detail.value | escape }}</span>
+        <div class="reviews-rail__track" data-marquee-track>
+          {%- comment -%} Rendered twice for a seamless CSS-only loop; duplicate copy is aria-hidden so screen readers see each review once. {%- endcomment -%}
+          {%- for copy in (1..2) -%}
+            <div class="reviews-rail__set" {% if copy == 2 %}aria-hidden="true"{% endif %}>
+              {%- for block in testimonial_blocks -%}
+                {%- assign testimonial = block.settings.testimonial_ref -%}
+                {%- if testimonial != blank -%}
+                  <article class="review-card pl-surface" {{ block.shopify_attributes }}>
+                    {%- if testimonial.rating.value != blank -%}
+                      <div class="review-card__stars" aria-hidden="true">
+                        {%- for i in (1..5) -%}
+                          {%- if i <= testimonial.rating.value -%}★{%- else -%}☆{%- endif -%}
+                        {%- endfor -%}
+                      </div>
                     {%- endif -%}
-                  </p>
-                </article>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-        {%- endfor -%}
+                    {%- if testimonial.headline.value != blank -%}
+                      <h3 class="review-card__headline">{{ testimonial.headline.value | escape }}</h3>
+                    {%- endif -%}
+                    {%- if testimonial.quote.value != blank -%}
+                      <p class="review-card__quote">{{ testimonial.quote.value }}</p>
+                    {%- endif -%}
+                    <p class="review-card__who">
+                      <span class="review-card__author">{{ testimonial.author.value | escape }}</span>
+                      {%- if testimonial.detail.value != blank -%}
+                        <span class="review-card__detail">{{ testimonial.detail.value | escape }}</span>
+                      {%- endif -%}
+                    </p>
+                  </article>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endfor -%}
+        </div>
       </div>
     </reviews-marquee>
   {%- else -%}

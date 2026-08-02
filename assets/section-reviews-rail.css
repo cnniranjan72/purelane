@@ -35,16 +35,25 @@
 }
 
 .reviews-rail__toggle:focus-visible,
-.reviews-rail__track:focus-visible {
+.reviews-rail__viewport:focus-visible {
   outline: 2px solid rgb(var(--color-button));
   outline-offset: 3px;
 }
 
-.reviews-rail__track {
-  display: flex;
+/* Owns the scrollbar and manual/keyboard scroll. Deliberately not the
+   animated element - a transformed element's native scrollbar gets
+   dragged along with the transform, which reads as the whole scrollbar
+   sliding back and forth. The animation lives on the child track instead,
+   so this stays visually still except when a visitor scrolls it themselves. */
+.reviews-rail__viewport {
   overflow-x: auto;
   scrollbar-width: thin;
   padding: 0.4rem 1.8rem 1.2rem;
+}
+
+.reviews-rail__track {
+  display: flex;
+  width: max-content;
 }
 
 .reviews-rail__set {
