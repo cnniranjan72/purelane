@@ -16,7 +16,15 @@
   }
 {%- endstyle -%}
 
-{%- assign combo_blocks = section.blocks | where: 'type', 'combo' -%}
+{%- liquid
+  assign combo_blocks = section.blocks | where: 'type', 'combo'
+  assign has_combo_content = false
+  for block in combo_blocks
+    if block.settings.combo_ref != blank
+      assign has_combo_content = true
+    endif
+  endfor
+-%}
 
 <section
   id="combos"
@@ -29,7 +37,7 @@
       lede: section.settings.lede
     %}
 
-    {%- if combo_blocks.size > 0 -%}
+    {%- if has_combo_content -%}
       <slider-component>
         <ul
           id="Slider-combos-{{ section.id }}"

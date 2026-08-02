@@ -15,7 +15,15 @@
   }
 {%- endstyle -%}
 
-{%- assign testimonial_blocks = section.blocks | where: 'type', 'testimonial' -%}
+{%- liquid
+  assign testimonial_blocks = section.blocks | where: 'type', 'testimonial'
+  assign has_testimonial_content = false
+  for block in testimonial_blocks
+    if block.settings.testimonial_ref != blank
+      assign has_testimonial_content = true
+    endif
+  endfor
+-%}
 
 <section
   id="reviews"
@@ -37,7 +45,7 @@
     </div>
   </div>
 
-  {%- if testimonial_blocks.size > 0 -%}
+  {%- if has_testimonial_content -%}
     <reviews-marquee class="reviews-rail__marquee">
       <button type="button" class="reviews-rail__toggle" data-marquee-toggle aria-pressed="false">
         <span data-marquee-toggle-label>Pause</span>
