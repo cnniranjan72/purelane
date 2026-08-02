@@ -63,7 +63,7 @@
               {%- for block in testimonial_blocks -%}
                 {%- assign testimonial = block.settings.testimonial_ref -%}
                 {%- if testimonial != blank -%}
-                  <article class="review-card pl-surface" {{ block.shopify_attributes }}>
+                  <article class="review-card pl-surface pl-tilt" {{ block.shopify_attributes }}>
                     {%- if testimonial.rating.value != blank -%}
                       <div class="review-card__stars" aria-hidden="true">
                         {%- for i in (1..5) -%}

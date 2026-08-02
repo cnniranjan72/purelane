@@ -1,0 +1,49 @@
+.pillars {
+  display: grid;
+  gap: var(--pl-gap);
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 750px) {
+  .pillars {
+    grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+  }
+}
+
+.pillar {
+  padding: 2.4rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.pillar__icon {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1.4rem;
+  display: grid;
+  place-items: center;
+  margin-bottom: 1.4rem;
+  background: linear-gradient(150deg, rgba(var(--color-button), 0.22), rgba(var(--color-foreground), 0.16));
+  border: 1px solid rgba(var(--color-foreground), 0.18);
+  color: rgb(var(--color-button));
+}
+
+.pillar__heading {
+  margin: 0 0 0.8rem;
+}
+
+.pillar__body {
+  font-size: 1.3rem;
+  opacity: 0.8;
+  margin: 0 0 1.6rem;
+  flex: 1;
+}
+
+.pillar__link {
+  align-self: flex-start;
+}
+
+.how-it-works__empty {
+  text-align: center;
+  opacity: 0.6;
+}

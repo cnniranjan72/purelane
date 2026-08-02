@@ -67,6 +67,114 @@
         "padding_bottom": 48
       }
     },
+    "ingredients": {
+      "type": "ingredients",
+      "blocks": {
+        "ing-1": {
+          "type": "ingredient",
+          "settings": { "icon": "droplet", "name": "Coconut", "description": "Plant-derived cleansers that lift grease" }
+        },
+        "ing-2": {
+          "type": "ingredient",
+          "settings": { "icon": "citrus", "name": "Orange peel", "description": "Natural degreaser and fresh citrus lift" }
+        },
+        "ing-3": {
+          "type": "ingredient",
+          "settings": { "icon": "sprout", "name": "Soap nut", "description": "A traditional plant foaming agent" }
+        },
+        "ing-4": {
+          "type": "ingredient",
+          "settings": { "icon": "leaf", "name": "Neem", "description": "Time-tested antibacterial from the tree" }
+        },
+        "ing-5": {
+          "type": "ingredient",
+          "settings": { "icon": "sprout", "name": "Lemongrass", "description": "Clean fragrance with nothing synthetic" }
+        }
+      },
+      "block_order": ["ing-1", "ing-2", "ing-3", "ing-4", "ing-5"],
+      "settings": {
+        "kicker": "What's inside",
+        "heading": "Sourced from nature",
+        "color_scheme": "scheme-6",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "how-it-works": {
+      "type": "how-it-works",
+      "blocks": {
+        "pillar-1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "droplet",
+            "heading": "Less scrubbing",
+            "body": "A foaming formulation. The foam clings to grease and lifts it, so you wipe instead of scrub.",
+            "link_label": "Learn more",
+            "link": "#shop"
+          }
+        },
+        "pillar-2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "shield",
+            "heading": "Clean ingredients",
+            "body": "No sulphates, no chlorine, no synthetic fragrance. Nothing on the label you would not want near your food.",
+            "link_label": "Learn more",
+            "link": "#ingredients"
+          }
+        },
+        "pillar-3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "leaf",
+            "heading": "Safe around everyone",
+            "body": "Gentle on hands, safe around kids and pets, and it leaves no toxic residue on the surfaces you touch every day.",
+            "link_label": "Learn more",
+            "link": "#reviews"
+          }
+        }
+      },
+      "block_order": ["pillar-1", "pillar-2", "pillar-3"],
+      "settings": {
+        "kicker": "The short version",
+        "heading": "How it works",
+        "color_scheme": "scheme-6",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "why-it-works": {
+      "type": "why-it-works",
+      "blocks": {
+        "stat-1": {
+          "type": "stat",
+          "settings": { "value": "99.9%", "label": "Germ kill", "description": "Tested against germs and bacteria" }
+        },
+        "stat-2": {
+          "type": "stat",
+          "settings": { "value": "0%", "label": "Sulphates", "description": "No SLS, chlorine or parabens" }
+        },
+        "stat-3": {
+          "type": "stat",
+          "settings": { "value": "100%", "label": "Plant based", "description": "Cleansers derived from plants" }
+        },
+        "stat-4": {
+          "type": "stat",
+          "settings": { "value": "4.8", "label": "Rated", "description": "Across 8,000+ verified reviews" }
+        }
+      },
+      "block_order": ["stat-1", "stat-2", "stat-3", "stat-4"],
+      "settings": {
+        "kicker": "Why it works",
+        "heading": "Tough on grime. Gentle on everything else.",
+        "body": "Every formula is built on plant-derived cleansers and essential oils. It behaves exactly like the cleaner you are used to, minus the things you never signed up for.",
+        "link_label": "Shop the range",
+        "link": "#shop",
+        "color_scheme": "scheme-6",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
     "shop": {
       "type": "shop",
       "settings": {
@@ -216,6 +324,9 @@
   },
   "order": [
     "hero",
+    "ingredients",
+    "how-it-works",
+    "why-it-works",
     "shop",
     "combos",
     "bundles",

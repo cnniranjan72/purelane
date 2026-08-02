@@ -55,6 +55,25 @@
   }
 }
 
+/* -------- tilt, an opt-in modifier for card-level .pl-surface elements --------
+   A local perspective() folded into the transform value gives a subtle 3D
+   tilt without needing a perspective ancestor or any JS mouse-tracking -
+   the lightweight stand-in for the WebGL/three.js request that would have
+   pulled in a framework and hurt Core Web Vitals. Two-class selector so it
+   wins over a card's own :hover rule (e.g. .tier:hover) regardless of which
+   stylesheet loads second. */
+@media (hover: hover) {
+  .pl-surface.pl-tilt:hover {
+    transform: perspective(900px) rotateX(2deg) rotateY(-3deg) translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-surface.pl-tilt:hover {
+    transform: none;
+  }
+}
+
 /* -------- section heading -------- */
 .section-heading {
   text-align: center;
