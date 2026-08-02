@@ -53,22 +53,28 @@
             >
               {%- if combo != blank -%}
                 <article class="combo-card pl-surface">
-                  {%- if combo.flag != blank -%}
-                    <span class="combo-card__flag">{{ combo.flag.value | escape }}</span>
-                  {%- endif -%}
-
                   {%- if combo.components.value.size > 0 -%}
-                    <div class="combo-card__stack" aria-hidden="true">
-                      {%- for component in combo.components.value limit: 3 -%}
-                        <span class="combo-card__thumb">
-                          {%- if component.featured_image -%}
-                            {{ component.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: component.title }}
-                          {%- else -%}
-                            {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
-                          {%- endif -%}
-                        </span>
-                      {%- endfor -%}
+                    <div class="combo-card__tray">
+                      {%- if combo.flag != blank -%}
+                        <span class="combo-card__flag">{{ combo.flag.value | escape }}</span>
+                      {%- endif -%}
+                      <div class="combo-card__stack" aria-hidden="true">
+                        {%- for component in combo.components.value limit: 3 -%}
+                          {%- unless forloop.first -%}
+                            <span class="combo-card__plus">+</span>
+                          {%- endunless -%}
+                          <span class="combo-card__thumb">
+                            {%- if component.featured_image -%}
+                              {{ component.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: component.title }}
+                            {%- else -%}
+                              {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                            {%- endif -%}
+                          </span>
+                        {%- endfor -%}
+                      </div>
                     </div>
+                  {%- elsif combo.flag != blank -%}
+                    <span class="combo-card__flag">{{ combo.flag.value | escape }}</span>
                   {%- endif -%}
 
                   <div class="combo-card__body">

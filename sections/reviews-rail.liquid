@@ -78,6 +78,7 @@
                       <p class="review-card__quote">{{ testimonial.quote.value }}</p>
                     {%- endif -%}
                     <p class="review-card__who">
+                      {% render 'icon', name: 'check', size: 14 %}
                       <span class="review-card__author">{{ testimonial.author.value | escape }}</span>
                       {%- if testimonial.detail.value != blank -%}
                         <span class="review-card__detail">{{ testimonial.detail.value | escape }}</span>

@@ -23,8 +23,10 @@
 
 .hero__heading {
   font-size: clamp(4.2rem, 7vw, 8rem);
-  line-height: 0.98;
-  letter-spacing: -0.01em;
+  line-height: 0.9;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  text-shadow: 0 0.6rem 4rem rgba(0, 0, 0, 0.35);
   margin: 0 0 1.6rem;
 }
 

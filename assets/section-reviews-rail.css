@@ -104,11 +104,19 @@
 }
 
 .review-card__who {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin: 0;
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.review-card__who .icon {
+  color: rgb(var(--color-button));
+  flex: 0 0 auto;
 }
 
 .review-card__detail {

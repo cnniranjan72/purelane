@@ -129,11 +129,28 @@
 
 .price-tag__discount {
   font-style: normal;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgb(var(--color-button));
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(var(--color-button), 0.16);
+  border: 1px solid rgba(var(--color-button), 0.4);
+}
+
+/* -------- primary CTA, scoped to the five homepage sections only --------
+   Dawn's flat button-color fill reads flat against the glass surfaces here;
+   a two-stop gradient gives it the same lift the rest of the page has.
+   Scoped to these section wrappers so it doesn't change buttons on other
+   templates that happen to reuse scheme-6. */
+.hero .button--primary,
+.shop .button--primary,
+.combos .button--primary,
+.bundles .button--primary,
+.reviews-rail .button--primary {
+  background: linear-gradient(135deg, rgb(var(--color-button)), rgba(var(--color-button), 0.72));
 }
 
 @media screen and (max-width: 749px) {
