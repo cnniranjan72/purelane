@@ -6,17 +6,16 @@ What I'd do next with another week, roughly in priority order.
 
 - Real product photography, replacing the placehold.co placeholders used
   to seed the dev store.
-- Set the store's currency/market to INR — the dev store defaults to USD,
-  so prices currently render as "$349.00" instead of "₹349"; this is a
-  store-settings change, not a theme change, but it's the single most
-  visible gap between this build and the brand's actual intent.
+- Currency to INR. Investigated this pass: it's gated behind connecting a
+  real Shopify Payments account (Settings → Markets → currency override
+  prompts "Complete account setup" for multi-currency) — genuine business/
+  financial onboarding, not a settings toggle, so appropriately left
+  undone rather than worked around. Everything else about the brand
+  (copy, ₹-shaped pricing structure, "Free shipping across India") is
+  ready for this the moment a real payments account exists.
 - A `product_range` bonus section for the "every room, one shelf" strip
   from the prototype (the full 14-product scrolling range) — explicitly
   marked optional in the brief and cut for time.
-- Wire the "Add to cart" quick-add buttons on the shop grid through to a
-  cart drawer (Dawn ships one; the shop section's `quick_add: standard`
-  setting already targets it, just needs a cart icon/drawer section added
-  to the header).
 
 ## Architecture
 
@@ -35,11 +34,15 @@ What I'd do next with another week, roughly in priority order.
 
 ## Accessibility & performance
 
-- Run an automated audit (axe-core or Lighthouse CI) once the store has
-  real product images, to get real Core Web Vitals numbers instead of the
-  structural/manual review this build relied on — see
-  [Performance-Notes.md](Performance-Notes.md) for what was checked by
-  hand.
+- A full Lighthouse/PageSpeed Insights run, once the store is on a plan
+  that allows lifting the storefront password. External crawlers can't
+  authenticate past it, and that gate can't be disabled on an unpaid
+  development store (confirmed this pass — the toggle exists in
+  Preferences but is disabled). What's available in the meantime — real
+  Navigation Timing measurements from an authenticated session — is in
+  [Performance-Notes.md](Performance-Notes.md).
+- Real product photography would also let LCP get measured meaningfully;
+  placehold.co placeholders aren't representative of final asset weight.
 - Keyboard-test the combos rail and reviews marquee with a screen reader
   (VoiceOver/NVDA), not just the accessibility-tree reasoning used here.
 

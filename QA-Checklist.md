@@ -1,34 +1,59 @@
 # QA checklist
 
-Run against all five sections (Hero, Shop grid, Combos, Bundles, Reviews
-rail) before calling any of them done. Checked manually in the theme
-editor and via code review; ✅ = verified, ⚠️ = verified with a caveat
-(noted), ⏳ = not yet verified against a live/populated store.
+Run against all eight sections (the five required, plus the three bonus
+sections) before calling any of them done. Verified live against the
+published theme and real store data — not just in code review. ✅ =
+verified live, ⚠️ = verified with a noted caveat.
+
+## Required sections
 
 | Check | Hero | Shop | Combos | Bundles | Reviews |
 |---|---|---|---|---|---|
-| Merchant editability (no hardcoded content a merchant would want to change) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Real Shopify data (not typed-in text pretending to be data) | ✅ featured_product blocks | ✅ collection | ✅ bundle_product price/compare | ⚠️ tiers are marketing copy by design, see Architecture.md | ✅ metaobject entries |
+| Merchant editability | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Real Shopify data | ✅ featured_product blocks | ✅ Bestsellers collection | ✅ bundle_product price/compare | ⚠️ tiers are merchant-entered marketing copy by design — see [Tradeoffs.md](Tradeoffs.md) | ✅ metaobject entries |
 | Reusable snippets (icon / price-tag / section-heading / badge-list) | ✅ | ✅ | ✅ | ✅ | n/a (custom head) |
 | Responsive 375px+ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Sold-out product | n/a | ✅ Dawn's card badge, verified against Herbal Floor Cleaner (0 stock) | n/a | n/a | n/a |
-| Missing product image | ✅ falls back to plain image/nothing | ✅ Dawn's placeholder SVG, verified against Handwash product | ✅ placeholder SVG per component | n/a | n/a |
-| Extremely long product title | n/a | ✅ Dawn's card wraps correctly, verified against Multi-Surface Concentrate Cleaner | n/a (only shows component thumbnails, not titles) | n/a | n/a |
-| Empty collection / no blocks configured | n/a | ✅ Dawn placeholder cards | ✅ explicit "add a combo" message (fixed after first review, see AI-Workflow.md) | ✅ explicit "add a tier" message | ✅ explicit "add a testimonial" message |
-| Survives block/section add, remove, reorder | ✅ no shared state | ✅ | ✅ | ✅ | ✅ |
+| Sold-out product | n/a | ✅ Herbal Floor Cleaner (0 stock) | n/a | n/a | n/a |
+| Missing product image | ✅ | ✅ Gentle Hydrating Liquid Handwash | ✅ placeholder per component | n/a | n/a |
+| Extremely long product title | n/a | ✅ Multi-Surface Concentrate Cleaner, wraps correctly | n/a | n/a | n/a |
+| Empty collection / no blocks configured | n/a | ✅ Dawn placeholder cards | ✅ "add a combo" message | ✅ "add a tier" message | ✅ "add a testimonial" message |
+| Survives block/section add, remove, reorder | ✅ | ✅ | ✅ scaled 2 → 3 combo blocks live | ✅ scaled 3 → 4 tier blocks live | ✅ |
+| Every CTA actually clickable (not a dead `aria-disabled` link) | ✅ | ✅ | ✅ | ✅ fixed — see below | ✅ |
 | Keyboard access to all interactive elements | ✅ dots are real buttons | ✅ Dawn's card links/buttons | ✅ Dawn's slider-component | n/a (no custom JS) | ✅ pause button + scrollable track |
-| Visible focus states | ✅ | ✅ (Dawn default) | ✅ (Dawn default) | ✅ (Dawn default) | ✅ (added, see accessibility fix commit) |
-| Reduced-motion respected | ✅ image_behavior + carousel auto-advance | n/a | n/a (native scroll) | n/a | ✅ marquee animation gated, pause button always present regardless |
-| Heading hierarchy (no orphaned h3 under a missing h2) | ✅ h1 | ✅ h2 via section-heading | ✅ h2 via section-heading | ✅ h2 via section-heading | ✅ visually-hidden h2 added (was missing) |
+| Visible focus states | ✅ | ✅ Dawn default | ✅ Dawn default | ✅ Dawn default | ✅ |
+| Reduced-motion respected | ✅ | n/a | n/a (native scroll) | n/a | ✅ marquee animation gated |
+| Heading hierarchy | ✅ h1 | ✅ h2 | ✅ h2 | ✅ h2 | ✅ visually-hidden h2 |
 | `shopify theme check` clean | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Verified live in theme editor against real store data | ✅ | ⏳ collection not yet assigned in theme editor | ⏳ combo blocks not yet pointed at entries | ✅ (block-based, works with presets) | ⏳ testimonial blocks not yet pointed at entries |
+| Wired to real store data in the published theme | ✅ | ✅ Bestsellers collection assigned | ✅ 3 combos wired | ✅ 4 tiers configured | ✅ 4 testimonials wired |
 
-## Known open items
+## Bonus sections
 
-The three ⏳ rows are the same open item: the Shop section's collection
-setting and the Combos/Reviews sections' metaobject-reference block
-settings need to be pointed at the "Bestsellers" collection and the
-combo/testimonial entries created in the dev store, via the theme editor's
-own pickers. Not a code gap — the sections already render correct empty
-states without this — just the last manual wiring step. See
-[README.md](README.md) for the exact steps.
+| Check | Ingredients | How it works | Why it works |
+|---|---|---|---|
+| Merchant editability | ✅ | ✅ | ✅ |
+| Responsive 375px+ | ✅ | ✅ fixed a `minmax()` overflow risk on narrow viewports | ✅ |
+| Empty state | ✅ "add an ingredient" message | ✅ "add a pillar" message | n/a (intro copy always renders) |
+| `shopify theme check` clean | ✅ | ✅ | ✅ |
+
+## Site-wide functionality (verified live, not assumed)
+
+| Check | Result |
+|---|---|
+| Add-to-cart updates cart count and cart page in real time | ✅ verified with real quantity/remove via AJAX |
+| Cart drawer opens on add-to-cart | ✅ switched from notification to drawer mode, verified live |
+| Predictive search returns real product results | ✅ verified live, searched "kitchen" |
+| Account link reaches Shopify's hosted Customer Accounts | ✅ verified — this store uses the newer hosted accounts, outside theme code |
+| Newsletter form creates a real, tagged customer record | ✅ tested with a throwaway email, confirmed in Admin, cleaned up |
+| Main nav links to every section (required + bonus) | ✅ Ingredients / How it works / Shop / Combos / Bundles / Reviews all added |
+| Storefront password gate | ✅ working as expected (Shopify platform behavior for unpaid dev stores) |
+| Published theme is what `dev store URL + password` actually shows | ✅ fixed — theme was built correctly but never published; now live |
+
+## Bug found and fixed this pass
+
+**Disabled "Build this box" CTAs.** All three (now four) bundle tier
+buttons rendered with `aria-disabled="true"` and no `href` because the
+seeded `cta_link` was blank — correct behavior for an unconfigured link,
+but it meant the buttons were dead on arrival. Wired `cta_link: "#shop"`
+into the seeded content and the block preset. Verified by programmatically
+scanning every interactive element on the page (56 links/buttons): only
+one is intentionally disabled — the required "Sold out" state.

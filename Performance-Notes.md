@@ -40,13 +40,42 @@ What was done, section by section.
   `clamp()` in CSS) so the featured-product cross-fade doesn't shift
   surrounding content as slides swap.
 
-## What's unverified
+## What was actually measured, and why it's partial
 
-No real Lighthouse/PageSpeed run has been done against the live store yet
-— the dev store currently has placeholder images (placehold.co, not
-optimized/CDN-native Shopify images at final size) and no traffic to
-generate real field data. The structural choices above (lazy loading,
-sizing, minimal JS) are the same choices that drive good Core Web Vitals
-in production, but the actual numbers should be re-checked once real
-product photography is in place. See
-[Future-Improvements.md](Future-Improvements.md).
+PageSpeed Insights/Lighthouse-as-external-crawler can't reach this store:
+it needs an unauthenticated fetch, which the storefront password blocks,
+and that password can't be disabled on a development store until it's on
+a paid plan (the toggle exists in Admin → Online Store → Preferences but
+is greyed out — confirmed, not assumed).
+
+What's available from *inside* an already-authenticated session is the
+browser's own Navigation Timing API, which doesn't need external access.
+Measured against the published theme's homepage:
+
+| Metric | Value |
+|---|---|
+| Time to first byte (TTFB) | ~830–855ms |
+| DOMContentLoaded | ~2.1–2.4s |
+| Full `load` event | ~2.5–3.3s |
+| Total requests | 208 |
+
+Two honest caveats on these numbers:
+
+1. **Not a cold-load measurement.** This session reloaded the homepage
+   dozens of times, so most requests were served from browser cache by
+   the time this was measured — the real first-visit transfer weight is
+   higher than what a warm-cache reading shows.
+2. **FCP/LCP weren't captured.** The Paint Timing API returned no entries
+   in this automated browser context across two attempts — a tooling
+   limitation of the automation environment, not something to draw a
+   performance conclusion from either way.
+
+TTFB in the 800ms range is mostly Shopify's own platform response time on
+a development store, not something theme code controls. The rest (DCL,
+load) is consistent with the structural choices below, but isn't a
+substitute for a proper first-visit Lighthouse run once the store can be
+put on a plan — see [Future-Improvements.md](Future-Improvements.md).
+
+The dev store also currently seeds placeholder images (placehold.co, not
+final Shopify-CDN photography), so even a clean Lighthouse run today
+wouldn't reflect final asset weight.
