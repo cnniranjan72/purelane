@@ -130,6 +130,11 @@ have been wrong in production regardless of the assignment:
   pattern (see the accessibility fix commit).
 - Fixed ambiguous heading hierarchy in the reviews section (no `<h2>` in
   that section at all) with a visually-hidden one.
+- Fixed three hardcoded product badge labels ("Best seller"/"New"/
+  "Top rated") in the Shop section — the tag-matching logic was correct,
+  real Shopify data, but the label text itself was Liquid-hardcoded.
+  Moved to section settings; visually identical until a merchant edits
+  one. See [QA-Checklist.md](QA-Checklist.md) for verification.
 
 ## What I'd do with more time
 

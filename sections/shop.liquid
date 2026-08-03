@@ -53,12 +53,12 @@
               style="--animation-order: {{ forloop.index }};"
             {% endif %}
           >
-            {%- if product.tags contains 'best-seller' -%}
-              <span class="shop-grid__tag-badge">Best seller</span>
-            {%- elsif product.tags contains 'new' -%}
-              <span class="shop-grid__tag-badge">New</span>
-            {%- elsif product.tags contains 'top-rated' -%}
-              <span class="shop-grid__tag-badge">Top rated</span>
+            {%- if product.tags contains 'best-seller' and section.settings.badge_best_seller_label != blank -%}
+              <span class="shop-grid__tag-badge">{{ section.settings.badge_best_seller_label | escape }}</span>
+            {%- elsif product.tags contains 'new' and section.settings.badge_new_label != blank -%}
+              <span class="shop-grid__tag-badge">{{ section.settings.badge_new_label | escape }}</span>
+            {%- elsif product.tags contains 'top-rated' and section.settings.badge_top_rated_label != blank -%}
+              <span class="shop-grid__tag-badge">{{ section.settings.badge_top_rated_label | escape }}</span>
             {%- endif -%}
             {% render 'card-product',
               card_product: product,
@@ -151,6 +151,14 @@
       "default": "standard"
     },
     { "type": "checkbox", "id": "show_view_all", "label": "Show \"View all\" link", "default": true },
+    { "type": "header", "content": "Product badges" },
+    {
+      "type": "paragraph",
+      "content": "Shown on products tagged best-seller, new, or top-rated. Leave a label blank to hide that badge."
+    },
+    { "type": "text", "id": "badge_best_seller_label", "label": "\"best-seller\" tag label", "default": "Best seller" },
+    { "type": "text", "id": "badge_new_label", "label": "\"new\" tag label", "default": "New" },
+    { "type": "text", "id": "badge_top_rated_label", "label": "\"top-rated\" tag label", "default": "Top rated" },
     {
       "type": "color_scheme",
       "id": "color_scheme",
