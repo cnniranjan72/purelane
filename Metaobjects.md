@@ -10,6 +10,29 @@ Reasoning for why these two are metaobjects and not blocks or product
 metafields is in [Architecture.md](Architecture.md#best-selling-combos-combos)
 and [Architecture.md](Architecture.md#reviews-rail-reviews).
 
+```mermaid
+erDiagram
+    COMBO ||--|| PRODUCT : "bundle_product (price source)"
+    COMBO }o--o{ PRODUCT : "components (2-5, thumbnails)"
+    TESTIMONIAL |o--o| PRODUCT : "product (optional)"
+
+    COMBO {
+        text name
+        text description
+        product_ref bundle_product
+        product_ref_list components
+        text flag "optional"
+    }
+    TESTIMONIAL {
+        text quote
+        text headline "optional"
+        integer rating "1-5"
+        text author
+        text detail "optional"
+        product_ref product "optional"
+    }
+```
+
 ## `combo`
 
 Type handle: `combo`
