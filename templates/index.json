@@ -234,7 +234,7 @@
             "features": "Pick any two products\nFree shipping across India",
             "highlight": false,
             "cta_label": "Build this box",
-            "cta_link": ""
+            "cta_link": "#shop"
           }
         },
         "tier-2": {
@@ -247,7 +247,7 @@
             "features": "Pick any three products\nCovers kitchen and laundry\nFree shipping across India",
             "highlight": true,
             "cta_label": "Build this box",
-            "cta_link": ""
+            "cta_link": "#shop"
           }
         },
         "tier-3": {
@@ -260,7 +260,7 @@
             "features": "Pick any five products\nEvery room in one order\nFree shipping across India",
             "highlight": false,
             "cta_label": "Build this box",
-            "cta_link": ""
+            "cta_link": "#shop"
           }
         }
       },
