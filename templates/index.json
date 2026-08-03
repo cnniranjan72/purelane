@@ -206,11 +206,18 @@
           "settings": {
             "combo_ref": "complete-home-bundle"
           }
+        },
+        "combo-3": {
+          "type": "combo",
+          "settings": {
+            "combo_ref": "hard-water-solution-kit"
+          }
         }
       },
       "block_order": [
         "combo-1",
-        "combo-2"
+        "combo-2",
+        "combo-3"
       ],
       "settings": {
         "kicker": "Pre-built to save you money",
@@ -262,12 +269,26 @@
             "cta_label": "Build this box",
             "cta_link": "#shop"
           }
+        },
+        "tier-4": {
+          "type": "tier",
+          "settings": {
+            "tag": "Bulk stock-up",
+            "quantity": 7,
+            "price": 999,
+            "compare_at_price": 2093,
+            "features": "Pick any seven products\nBiggest per-product saving\nFree shipping across India",
+            "highlight": false,
+            "cta_label": "Build this box",
+            "cta_link": "#shop"
+          }
         }
       },
       "block_order": [
         "tier-1",
         "tier-2",
-        "tier-3"
+        "tier-3",
+        "tier-4"
       ],
       "settings": {
         "kicker": "Build your bundle",
