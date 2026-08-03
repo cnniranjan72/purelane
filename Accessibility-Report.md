@@ -57,17 +57,34 @@ Every animated piece is gated:
 
 ## Contrast
 
-Scheme-6 (Purelane's brand scheme, see
-[Architecture.md](Architecture.md#theme-wide)) pairs `#ECE6F7` text on
-`#17102B` background — roughly 13:1, comfortably AA/AAA for any text
-size. The accent color (`#F0A03C`, used for discount badges and the hero
-accent word) on that same dark background is roughly 8:1. Button text
-(`#17102B` on `#F0A03C`) is roughly 8:1. All checked well above the 4.5:1
-AA threshold for normal text.
+Computed live against the published theme (WCAG relative-luminance
+formula, run against the actual rendered `getComputedStyle` colors, not
+hex-math on paper):
+
+| Pair | Ratio | AA (4.5:1) | AAA (7:1) |
+|---|---|---|---|
+| Body text on scheme-6 background (`#ECE6F7` on `#17102B`) | **17.23:1** | ✅ | ✅ |
+| Accent color on scheme-6 background (`#F0A03C` on `#17102B`) | **9.80:1** | ✅ | ✅ |
+| Button text on accent background (`#17102B` on `#F0A03C`) | **8.55:1** | ✅ | ✅ |
+
+## Keyboard navigation — verified live
+
+Tab order was walked on the published theme, not just reasoned about
+from markup:
+
+- **52 focusable elements** on the homepage, starting with Dawn's
+  built-in "Skip to content" link, then logo → main nav (all 9 items,
+  including the newly-added section anchors) → search → account → cart →
+  hero CTAs → pillar links → shop grid.
+- The one `disabled` button on the page (Herbal Floor Cleaner's "Sold
+  out") is correctly excluded from the tab sequence — it neither receives
+  focus nor sits in a confusing gap in the order.
+- Visible focus ring confirmed on-screen after real Tab key presses
+  (screenshot-verified), not just present in CSS.
 
 ## Not yet verified
 
-Screen-reader testing (VoiceOver/NVDA) against the live rendered page —
-the above is verified by reading the accessibility tree and ARIA
-semantics directly, not by listening to actual assistive-tech output. See
+Testing with actual assistive-tech software (VoiceOver/NVDA) rather than
+programmatic accessibility-tree/keyboard verification — that would
+confirm what gets *announced*, which the checks above don't cover. See
 [Future-Improvements.md](Future-Improvements.md).
