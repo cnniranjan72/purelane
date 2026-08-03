@@ -65,6 +65,60 @@ form fields ended up with concatenated garbage text before I switched to
 element-reference clicks and keyboard Tab-navigation for multi-field forms,
 which don't drift when layout shifts.
 
+**A `theme push` silently overwrote live theme-editor picks.** After
+wiring metaobject block selections (combos, testimonials) by hand in the
+theme editor, a later `shopify theme push` deploying an unrelated CSS fix
+re-uploaded the *local* `templates/index.json`, which had never had those
+picks in it — wiping the live selections. The fix was mechanical
+(`shopify theme pull` before any push that touches a JSON template file
+after editor changes), but the real lesson is upstream: local repo state
+and live theme state can silently diverge the moment anyone touches the
+theme editor, and nothing warns you when a push is about to overwrite
+that. Now treated as a standing rule, not a one-off fix.
+
+**A disabled CTA shipped and wasn't caught until the user clicked it.**
+The Bundles section's "Build this box" buttons rendered correctly in every
+screenshot I took — but the seeded `cta_link` was blank, which correctly
+triggers the component's own "unconfigured" state (`aria-disabled="true"`,
+no `href`). Visually indistinguishable from a working button in a
+screenshot; only shows up as a not-allowed cursor on actual hover, which I
+never did. I verified sections *rendered*, not that every interactive
+element was actually *clickable* — a real gap between "looks done" and
+"is done" that a visual QA pass doesn't catch.
+
+**Assumed theme templates controlled the account pages — they didn't.**
+Planned to brand `templates/customers/*.json` to match the rest of the
+site. Turns out this store uses Shopify's newer hosted Customer Accounts,
+which serves `/account` from `shopify.com/<id>/account` entirely outside
+theme code — editing those templates would have been silent, verifiable-
+looking, and completely inert. Found by actually visiting `/account/login`
+and watching it redirect off-domain, not by reading Dawn's file structure
+and assuming. Branding lives in Admin → Settings → Customer accounts →
+Configurations instead.
+
+**Core Web Vitals couldn't be measured with the obvious tool.**
+PageSpeed Insights/Lighthouse-as-external-crawler needs an unauthenticated
+fetch of the page, which the storefront password blocks — and that
+password can't be turned off on this store because Shopify gates *all*
+development stores behind one until the store is on a paid plan (the
+toggle in Preferences is present but disabled). Worth knowing before
+promising a Lighthouse score as a deliverable: on an unpaid dev store, you
+either measure via an already-authenticated session (Navigation Timing
+API from within a real browser tab — got partial numbers this way, TTFB
+and load timing, but Paint Timing/LCP didn't fire reliably in the
+automated tab) or you wait until the store can go on a plan.
+
+**Built everything correctly and still shipped a broken deliverable.**
+The five sections, the metaobjects, the cart, all worked — but the
+store's *live* theme was still stock Horizon the whole time, because
+`shopify theme push` deploys a theme without publishing it. Anyone using
+"Dev store URL and password" as instructed, without also knowing to add
+`?preview_theme_id=...`, would have landed on an empty, uncustomized
+store. Caught only because the user asked "should I publish this?" —
+not because I checked. The artifact being correct and the deliverable
+being correct are different claims, and I'd been verifying the first,
+not the second.
+
 ## What I'd systematize for twenty more of these
 
 - **A CSV validator script**, checked into the repo once, not
@@ -83,3 +137,20 @@ which don't drift when layout shifts.
 - **Prefer keyboard navigation (Tab) over coordinate clicks** for any
   multi-field form filled via browser automation — it's immune to layout
   shift in a way pixel coordinates aren't.
+- **`theme pull` before any `theme push` that touches a JSON template**,
+  once the theme editor has been touched by hand even once. Treat local
+  and live as diverged by default, not in sync by default.
+- **Click every interactive element during QA, not just render every
+  section.** A screenshot proves a button exists and looks right; it
+  doesn't prove it has an `href`. This build shipped one disabled CTA that
+  a full render-and-look pass never caught.
+- **Verify the deliverable, not just the artifact, before calling
+  something done.** "The theme is built correctly" and "the URL in the
+  handoff doc actually shows it" are different checks — the second one
+  is the one that failed here, silently, because nothing about the build
+  itself was wrong.
+- **Don't assume a platform surface is theme-controlled — check first.**
+  Customer accounts, checkout, and increasingly other "core" pages are
+  moving to Shopify-hosted UIs outside theme code on newer stores. A
+  five-second visit to the actual URL would have caught this before any
+  time went into a plan that assumed otherwise.

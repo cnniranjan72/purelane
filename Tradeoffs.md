@@ -4,6 +4,61 @@ What the prototype does that this build deliberately does not, and why.
 Written for the assignment's "what you'd flag about the original file"
 ask — this is the honest accounting, not a highlight reel.
 
+## Chrome that looked functional but wasn't
+
+The prototype's own `<script>` block only wires five things: scroll-reveal,
+the scene crossfade, the progress-rail sync, header/parallax on scroll, and
+the hero/rotator carousels. Everything else with a `btn` or `href` class is
+static markup with no behavior behind it. None of this is a knock on the
+prototype — it's a design comp, not a build — but it's worth being precise
+about what "taking it live" actually had to add, since these are exactly
+the things a merchant's team would hit first:
+
+- **Cart.** The header cart icon shows a hardcoded `<span class="dot">0</span>`
+  badge and no `<a href>` at all — clicking it does nothing. Production has
+  a real Dawn cart (page + notification), tested end-to-end: add-to-cart
+  updates the header count and cart contents live, quantity/remove run over
+  AJAX. See the [README](README.md#cart-checkout-and-customer-accounts).
+- **Account/profile.** The account icon is an unlinked `<button>`. Production
+  wires it to Shopify's real (hosted) Customer Accounts, branded to match.
+- **Search.** The search icon is an unlinked `<button>`, no input, no
+  results. Production uses Dawn's real predictive search — typing a query
+  returns live product matches.
+- **Reviews/"voices".** Five reviews, two of them attributed to "Verified
+  buyer" as a placeholder, duplicated in markup for the marquee loop, with
+  no way to add a sixth without editing HTML. Production reviews are
+  metaobject entries a merchant picks from the theme editor.
+- **Add-to-cart on product cards.** `<button class="btn btn-ghost btn-sm">Add
+  to cart</button>` — no form, no variant ID, no handler bound to it
+  anywhere in the script. Clicking is a no-op. Production cards are Dawn's
+  real `card-product.liquid`, genuine add-to-cart forms against real
+  variants, confirmed live (cart count increments, cart page reflects it).
+- **Category filter links.** The footer's "Kitchen / Laundry / Home / Skin"
+  links and the "Bundle categories" cards all point at the same `#shop`
+  anchor regardless of which category you click — the filtering is implied
+  by the labels, not real. Out of scope to fully rebuild (would need
+  collection-per-category or tag-based filtering, a bigger content-model
+  decision than this assignment calls for), but worth flagging rather than
+  quietly leaving the same non-filtering behavior in place.
+- **The progress rail** (fixed right-side dots synced to seven hardcoded
+  section anchors via `syncRail()`). Structurally the same problem as the
+  scene-depth system below: it's wired to fixed anchors, not to whatever
+  sections actually exist, so removing/reordering a section either points a
+  dot at the wrong place or breaks silently. Not rebuilt.
+- **The hero background "suggests scroll but doesn't scroll."** The water
+  layers use `translate3d` offset by `-y * depth` in a scroll handler, so
+  in principle it's scroll-linked parallax. In practice most visitors never
+  see that: it's cross-faded between four static gradient "scenes" rather
+  than continuous motion, the second water layer and bubbles are switched
+  off below 760px (`.wl-b,.bub{display:none}`), and the mouse-parallax half
+  of the effect only runs above 1024px width — so mobile and touch users,
+  the majority of traffic on a DTC site, get an almost-static background
+  that's coded to look like it should be moving. Dropped in favor of
+  Dawn's per-section color-scheme gradients — see the scene-depth
+  writeup below for the theme-editor-survival argument, which was the
+  primary reason, but this is the second, independent reason it wasn't
+  worth rebuilding faithfully.
+
 ## Dropped or simplified from the prototype
 
 **The synchronized "scene depth" background system.** Every section in
