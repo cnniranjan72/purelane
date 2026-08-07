@@ -5,7 +5,8 @@
 
   Accepts:
   - name: {String} one of 'leaf', 'shield', 'no-chemicals', 'check', 'arrow',
-    'droplet', 'citrus', 'sprout'
+    'droplet', 'citrus', 'sprout', 'coins', 'box-check', 'star', 'truck',
+    'package', 'heart', 'globe'
   - size: {Number} pixel size for width/height (optional, default 20)
 
   Usage:
@@ -52,5 +53,26 @@
       <path d="M12 21v-9" />
       <path d="M12 12C12 7 9 5 5 5c0 4.4 2.6 7 7 7Z" />
       <path d="M12 12c0-4 2.6-6.4 7-6.4 0 3.8-2.8 6.4-7 6.4Z" />
+    {%- when 'coins' -%}
+      <path d="M12 3v18" />
+      <path d="M16.5 7.2C15.6 6 14 5.4 12 5.4c-2.4 0-4 1.1-4 2.9 0 2 1.7 2.7 4.2 3.3 2.7.6 4.3 1.4 4.3 3.4 0 1.9-1.7 3.1-4.5 3.1-2.2 0-3.8-.7-4.8-2" />
+    {%- when 'box-check' -%}
+      <rect x="4" y="4" width="16" height="16" rx="3.4" />
+      <path d="m8.4 12.2 2.4 2.4 4.8-5" />
+    {%- when 'star' -%}
+      <path d="m12 3.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L3.6 9.7l5.8-.8Z" />
+    {%- when 'truck' -%}
+      <path d="M2.6 16.4V7.2h10.2v9.2" />
+      <path d="M12.8 10.4h4l3.6 3.2v2.8h-7.6" />
+      <circle cx="6.6" cy="18" r="1.9" />
+      <circle cx="16.6" cy="18" r="1.9" />
+    {%- when 'package' -%}
+      <path d="M4 8h16v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" />
+      <path d="M4 8 6.5 3h11L20 8M9.5 12h5" />
+    {%- when 'heart' -%}
+      <path d="M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 8a4.1 4.1 0 0 1 7 2.6c0 5-7 9.4-7 9.4Z" />
+    {%- when 'globe' -%}
+      <circle cx="12" cy="12" r="8.6" />
+      <path d="M3.4 12h17.2M12 3.4c2.4 2.4 3.6 5.4 3.6 8.6S14.4 18.2 12 20.6c-2.4-2.4-3.6-5.4-3.6-8.6S9.6 5.8 12 3.4Z" />
   {%- endcase -%}
 </svg>

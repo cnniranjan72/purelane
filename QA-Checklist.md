@@ -35,6 +35,25 @@ verified live, ⚠️ = verified with a noted caveat.
 | Empty state | ✅ "add an ingredient" message | ✅ "add a pillar" message | n/a (intro copy always renders) |
 | `shopify theme check` clean | ✅ | ✅ | ✅ |
 
+| Check | Product shelf | Why bundles | Bundle categories | Trust bar | Newsletter panel |
+|---|---|---|---|---|---|
+| Merchant editability | ✅ Collection picker | ✅ 4 reason blocks | ✅ 4 category blocks, real product per card | ✅ 4 item blocks | ✅ kicker/heading/lede/button text |
+| Real Shopify data | ✅ Bestsellers collection, real images | n/a marketing copy by design | ✅ each card's image is a real product | n/a marketing copy by design | ✅ real `{% form 'customer' %}`, not the reference's fake `onsubmit="return false"` |
+| Reusable pattern | ✅ `combos.liquid`'s `slider-component` | ✅ `how-it-works.liquid`'s pillar block | ✅ same pillar pattern, product image instead of icon | ✅ `snippets/icon.liquid` | ✅ footer's proven newsletter form mechanism |
+| Empty state | ✅ "pick a collection" message | ✅ "add a reason" message | ✅ "add a category" message | ✅ "add an item" message | n/a (form always renders) |
+| Responsive | ✅ same breakpoint pattern as verified sections | ✅ | ✅ | ✅ | ✅ |
+| `shopify theme check` clean | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Real signup tested | n/a | n/a | n/a | n/a | ✅ throwaway email → real Subscribed customer confirmed in Admin, then deleted |
+
+Responsive 375px+ for these five: verified by pattern, not a fresh
+device-emulation screenshot — the window-resize tool wasn't cooperating
+with this environment's window manager mid-session. Each section's CSS
+uses the exact same mobile-first breakpoint structure (`grid-template-
+columns: 1fr` below `750px`/`480px`, `repeat(auto-fit, ...)` above) as the
+sections already screenshot-verified at 375px, so this is a structural
+guarantee, not a guess — but it's a real gap between this and an actual
+screenshot, worth flagging rather than quietly claiming full verification.
+
 ## Site-wide functionality (verified live, not assumed)
 
 | Check | Result |
@@ -47,6 +66,9 @@ verified live, ⚠️ = verified with a noted caveat.
 | Main nav links to every section (required + bonus) | ✅ Ingredients / How it works / Shop / Combos / Bundles / Reviews all added |
 | Storefront password gate | ✅ working as expected (Shopify platform behavior for unpaid dev stores) |
 | Published theme is what `dev store URL + password` actually shows | ✅ fixed — theme was built correctly but never published; now live |
+| Top bar is a real continuous-scroll marquee, not a slide/fade carousel | ✅ replaced Dawn's stock announcement bar with a custom section; verified live, no prev/next arrows, seamless loop |
+| Scroll progress rail tracks the actual live section list | ✅ built from the live DOM at runtime (not hardcoded anchors); verified 13/13 sections present with correct labels, active dot updates on scroll |
+| Bundle category cards show real product images | ✅ verified live — same product photography used in hero/shop/combos/product-shelf, not a separate icon set |
 
 ## Section-level theme editor reorder — verified
 
@@ -77,6 +99,37 @@ No CSS conflicts, no broken IDs, no section reading another section's
 state — consistent with the architecture (each section is self-contained
 by design; see [Architecture.md](Architecture.md)), now confirmed rather
 than just designed-for.
+
+## Round 2 — visual-fidelity pass against the reference file
+
+A prior submission was flagged for not visually replicating
+`reference/purelane-homepage.html` closely enough. Investigated by
+screenshotting the reference file live (served locally) side-by-side with
+the store, rather than re-reading the Liquid and assuming. Found the real,
+specific cause and fixed it — see the full writeup in
+[Tradeoffs.md](Tradeoffs.md#whats-not-a-tradeoff--real-fixes):
+
+- **Color palette was implementing dead CSS.** The reference has two
+  conflicting `:root{}` blocks; only the second (commented "VERSION 2 -
+  BRAND COLOURS (light)") actually renders, per CSS cascade. `scheme-6`
+  had the first, dead, dark palette. Fixed at the single scheme
+  definition; verified live with a real computed-contrast check
+  (5.32:1 button label, 15.02:1 body text — both pass WCAG AA).
+- Hero's product carousel (`featured_product` blocks, real image + real
+  price-tag) was already fully built in `sections/hero.liquid` but had
+  zero blocks configured — populated with 3 real bestseller/top-rated
+  products. Verified live: real image, real price, real discount badge,
+  working dots.
+- Section order corrected to match the reference (`combos → bundles →
+  shop`, not `shop` first) — verified with the same zero-gap
+  `getBoundingClientRect()` method as the original reorder test.
+- Top ticker rebuilt as a real continuous marquee; scroll progress rail
+  rebuilt (dynamically, not hardcoded); 5 bonus sections added (product
+  shelf, why bundles, bundle categories, trust bar, newsletter panel) —
+  see the bonus-sections table above for each one's verification.
+- Bundle category cards switched from generic icons to each category's
+  real product image, for visual consistency with every other product
+  mention on the page.
 
 ## Bugs found and fixed this pass
 

@@ -22,25 +22,33 @@ flowchart TD
     Ing["Ingredients — bonus"]
     How["How it works — bonus"]
     Why["Why it works — bonus"]
-    Shop["② Shop grid — #shop"]
     Combos["③ Best-selling combos — #combos"]
     Bundles["④ Bundles — #bundles"]
+    Shop["② Shop grid — #shop"]
+    Shelf["Product shelf — bonus"]
+    WhyB["Why bundles — bonus"]
+    Cats["Bundle categories — bonus"]
+    Trust["Trust bar — bonus"]
     Reviews["⑤ Reviews rail — #reviews"]
+    News["Newsletter panel — bonus"]
     Footer["Footer — newsletter, links"]
 
-    Header --> Hero --> Ing --> How --> Why --> Shop --> Combos --> Bundles --> Reviews --> Footer
+    Header --> Hero --> Ing --> How --> Why --> Combos --> Bundles --> Shop --> Shelf --> WhyB --> Cats --> Trust --> Reviews --> News --> Footer
 
     classDef required fill:#4B3A8F,color:#fff,stroke:#241A3D
     classDef bonus fill:#F4F0FB,color:#241A3D,stroke:#4B3A8F
     class Hero,Shop,Combos,Bundles,Reviews required
-    class Ing,How,Why bonus
+    class Ing,How,Why,Shelf,WhyB,Cats,Trust,News bonus
 ```
 
 Every box is its own real Shopify section — independently addable,
 removable, and reorderable in the theme editor without breaking the ones
 around it. The five required sections (①–⑤) are the assignment's scope;
-Ingredients, How it works, and Why it works are additional sections built
-to the same standard, easy to delete if you only want the required five.
+everything else is additional, built to the same standard, easy to delete
+if you only want the required five. Section order (and the light mint
+color palette) was corrected to match `reference/purelane-homepage.html`'s
+own real rendered design — see [Tradeoffs.md](Tradeoffs.md) for the
+root-cause writeup.
 
 | # | Section | id | File |
 |---|---|---|---|
@@ -48,16 +56,42 @@ to the same standard, easy to delete if you only want the required five.
 | — | Ingredients *(bonus)* | `#ingredients` | `sections/ingredients.liquid` |
 | — | How it works *(bonus)* | `#how-it-works` | `sections/how-it-works.liquid` |
 | — | Why it works *(bonus)* | `#why-it-works` | `sections/why-it-works.liquid` |
-| ② | Shop / product grid | `#shop` | `sections/shop.liquid` |
 | ③ | Best-selling combos | `#combos` | `sections/combos.liquid` |
 | ④ | Bundles | `#bundles` | `sections/bundles.liquid` |
+| ② | Shop / product grid | `#shop` | `sections/shop.liquid` |
+| — | Product shelf *(bonus)* | `#product-shelf` | `sections/product-shelf.liquid` |
+| — | Why bundles *(bonus)* | `#why-bundles` | `sections/why-bundles.liquid` |
+| — | Bundle categories *(bonus)* | `#bundle-categories` | `sections/bundle-categories.liquid` |
+| — | Trust bar *(bonus)* | `#trust-bar` | `sections/trust-bar.liquid` |
 | ⑤ | Reviews rail | `#reviews` | `sections/reviews-rail.liquid` |
+| — | Newsletter panel *(bonus)* | `#newsletter-panel` | `sections/newsletter-panel.liquid` |
 
-Reusable pieces shared across all eight: `snippets/icon.liquid`,
+Reusable pieces shared across all thirteen: `snippets/icon.liquid`,
 `snippets/price-tag.liquid`, `snippets/section-heading.liquid`,
 `snippets/badge-list.liquid`, `assets/purelane-shared.css` (the `.pl-surface`
 glass-card treatment and `.pl-tilt` hover depth every card in the build
-shares).
+shares). The product shelf reuses `combos.liquid`'s `slider-component`
+pattern; why-bundles and bundle-categories reuse `how-it-works.liquid`'s
+icon+heading+body block pattern; the newsletter panel reuses Dawn's real
+`{% form 'customer' %}` mechanism already proven in the footer — none of
+the five new sections invent a new pattern from scratch.
+
+Two more pieces sit outside the section list above because they're
+page-furniture, not homepage sections:
+
+- **Marquee bar** (`sections/marquee-bar.liquid`, lives in the header
+  group) — a real continuous-scroll ticker, not Dawn's stock fade/slide
+  announcement bar. Same CSS technique the reference itself uses: the
+  message list renders twice in one flex track, `translateX(-50%)` loops
+  it seamlessly, `prefers-reduced-motion` turns it off.
+- **Scroll rail** (`snippets/scroll-rail.liquid` + `assets/scroll-rail.js`,
+  rendered from `layout/theme.liquid` on the homepage only) — the
+  fixed-position right-side dot rail, built from the *live DOM* at
+  runtime instead of a hardcoded anchor list. It reads whatever sections
+  actually exist inside `#MainContent`, in whatever order they're
+  actually in, and labels each dot from that section's own heading — so
+  reordering or removing a section in the theme editor never leaves a
+  dangling dot pointing nowhere.
 
 ## Content model
 
@@ -113,9 +147,12 @@ products for the shop grid.
 | What | Wired to |
 |---|---|
 | Shop section's Collection | Bestsellers |
+| Hero featured product blocks (3) | Foaming Kitchen Cleaner, Tap Cleaner & Limescale Remover, Copper Bronze & Brass Cleaner — real price + image, real discount badge |
 | Combo blocks (3) | Kitchen essentials, Complete home bundle, Hard water solution kit |
 | Testimonial blocks (4) | Anita, Priya, Sunita, Rohit S. |
 | Bundle tiers (4) | Starter (2), Most popular (3), Whole home (5), Bulk stock-up (7) |
+| Product shelf's Collection | Bestsellers (same 8 products, horizontal strip) |
+| Announcement bar (4 messages) | Real, rotating — shipping, ingredients, review count, an actual bundle price |
 | Main nav | Home, Catalog, Contact, Ingredients, How it works, Shop, Combos, Bundles, Reviews |
 
 None of this is required for the page to render correctly — every section
@@ -172,3 +209,31 @@ inspected).
 Commits are organized by milestone (architecture → snippets → each
 section → template wiring → fixes → docs), not squashed — `git log
 --oneline` reads as the build order.
+
+## Lessons learned
+
+- **Theme editor stability is a feature, not a checkbox.** It's easy to
+  write a section that looks right once and quietly breaks the moment a
+  merchant adds a block, clears a picker, or drags a section somewhere
+  else. Every empty state, every block-count assumption, and eventually
+  section-level reorder itself had to be tested against that, not just
+  reasoned about — see [QA-Checklist.md](QA-Checklist.md).
+- **A screenshot proves a button exists, not that it's clickable.** The
+  Bundles section shipped with three CTAs rendering correctly and doing
+  nothing (`aria-disabled`, no `href`) because the seeded content was
+  blank — caught by a user actually clicking one, not by a full visual
+  pass. Since then, "click every interactive element" is a real QA step,
+  not an assumption that render-correctly implies works.
+- **AI accelerates writing code, not verifying it.** Every claim in this
+  repo that matters — contrast ratios, keyboard order, cart behavior,
+  which platform surfaces the theme actually controls — was checked
+  against the live store, not asserted from reading the Liquid. The
+  places this build is strongest are the places something was actually
+  clicked, measured, or fetched; the places it's weakest (no Lighthouse
+  score, no screen-reader pass) are exactly the ones no amount of code
+  reading could have closed — see [AI-Workflow.md](AI-Workflow.md).
+- **Reusable architecture pays for itself immediately, not eventually.**
+  `price-tag.liquid`, `section-heading.liquid`, and `.pl-surface` weren't
+  written for hypothetical future sections — they were written because
+  the second section needed the same thing the first one did, and the
+  third confirmed it wasn't a coincidence.

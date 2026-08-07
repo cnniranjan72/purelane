@@ -10,3 +10,8 @@ Thumbs.db
 .shopify
 node_modules
 *.zip
+# Local reference captures (working material, not deliverables).
+# The provided reference/purelane-homepage.html IS tracked.
+reference/*.mp4
+reference/Screenshot*.png
+reference/image.png
