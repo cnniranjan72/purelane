@@ -1,0 +1,83 @@
+{% comment %}
+  Renders one product card for the Shop grid, matching the reference's
+  `.card` structure exactly: a tinted "shot" area holding an optional tag
+  pill and the bottle render, then an uppercase title, a rating line, the
+  price row, and a real add-to-cart.
+
+  Everything is live Shopify data — title, price, compare-at, availability
+  and variant id all come off the product. The bottle art is the shared
+  `product-icon` snippet (see Tradeoffs.md: no real product photography
+  exists for this store yet, and the reference's own "photography" is the
+  same parametric SVG recoloured per product).
+
+  Accepts:
+  - product: {Object} required
+  - section_id: {String} used to build unique form ids
+  - icon_color: {String} hex for the bottle render
+  - badge_label: {String} optional pill text (e.g. "Best seller")
+
+  Usage:
+  {% render 'shop-card', product: product, section_id: section.id, icon_color: c, badge_label: label %}
+{% endcomment %}
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign form_id = 'ShopCard-' | append: section_id | append: '-' | append: product.id
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value
+-%}
+<article class="shop-card pl-surface pl-tilt">
+  <div class="shop-card__shot">
+    {%- if badge_label != blank -%}
+      <span class="shop-card__pill">{{ badge_label }}</span>
+    {%- endif -%}
+    {% render 'product-icon', color: icon_color, name: product.title %}
+  </div>
+
+  <h3 class="shop-card__name">
+    <a href="{{ product.url }}">{{ product.title }}</a>
+  </h3>
+
+  {%- if rating != blank -%}
+    <p class="shop-card__rate">
+      <b>&#9733; {{ rating.rating | default: rating }}</b>
+      {%- if rating_count != blank %} &middot; {{ rating_count }} reviews{% endif -%}
+    </p>
+  {%- endif -%}
+
+  {% render 'price-tag', product: product, show_discount_percent: true %}
+
+  <product-form data-section-id="{{ section_id }}">
+    {%- form 'product', product, id: form_id, class: 'shop-card__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+      <input
+        type="hidden"
+        name="id"
+        value="{{ variant.id }}"
+        class="product-variant-id"
+        {% if variant.available == false %}
+          disabled
+        {% endif %}
+      >
+      <button
+        id="{{ form_id }}-submit"
+        type="submit"
+        name="add"
+        class="button button--secondary shop-card__cta"
+        aria-live="polite"
+        data-sold-out-message="true"
+        {% if variant.available == false %}
+          disabled
+        {% endif %}
+      >
+        <span>
+          {%- if variant.available -%}
+            {{ 'products.product.add_to_cart' | t }}
+          {%- else -%}
+            {{ 'products.product.sold_out' | t }}
+          {%- endif -%}
+        </span>
+        <span class="sold-out-message hidden">{{ 'products.product.sold_out' | t }}</span>
+        {%- render 'loading-spinner' -%}
+      </button>
+    {%- endform -%}
+  </product-form>
+</article>

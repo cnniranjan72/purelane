@@ -36,6 +36,12 @@
         {%- endif -%}
       </h1>
 
+      <div class="hero__rule" aria-hidden="true">
+        <i></i>
+        {% render 'icon', name: 'leaf', size: 16 %}
+        <i></i>
+      </div>
+
       {%- if section.settings.subheading != blank -%}
         <div class="hero__subheading rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           {{ section.settings.subheading }}
@@ -68,29 +74,49 @@
         <hero-stage class="hero__stage" data-count="{{ featured_blocks.size }}">
           {%- for block in featured_blocks -%}
             {%- assign product = block.settings.product -%}
+            {%- assign slide_num = forloop.index -%}
             <div
               class="hero__slide{% if forloop.first %} is-active{% endif %}"
               data-hero-slide
               {% unless forloop.first %}aria-hidden="true"{% endunless %}
               {{ block.shopify_attributes }}
             >
-              {%- if product != blank and product.featured_media != blank -%}
+              {%- if product != blank -%}
                 <div class="hero__slide-media animate--{{ section.settings.image_behavior }}">
-                  {%- if forloop.first -%}
-                    {{ product.featured_media | image_url: width: 700 | image_tag: alt: product.featured_media.alt | default: product.title, fetchpriority: 'high' }}
-                  {%- else -%}
-                    {{ product.featured_media | image_url: width: 700 | image_tag: alt: product.featured_media.alt | default: product.title, loading: 'lazy' }}
-                  {%- endif -%}
+                  <div class="hero__bottle-stack">
+                    {%- for stack_block in featured_blocks limit: slide_num -%}
+                      {%- assign stack_product = stack_block.settings.product -%}
+                      {%- if stack_product != blank -%}
+                        <span class="hero__bottle-stack-item">
+                          {% render 'product-icon',
+                            color: stack_block.settings.icon_color,
+                            name: stack_product.title,
+                            variant: 'tall'
+                          %}
+                        </span>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
                 </div>
                 <div class="hero__price-tag pl-surface">
                   {%- if block.settings.label != blank -%}
                     <span class="hero__price-label">{{ block.settings.label | escape }}</span>
                   {%- endif -%}
-                  {% render 'price-tag', product: product, show_discount_percent: true %}
-                </div>
-              {%- elsif product != blank -%}
-                <div class="hero__slide-media hero__slide-media--empty">
-                  {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {%- comment -%}
+                    Slides 2 and 3 quote a multi-buy tier ("Any 3 products"),
+                    so they need that tier's price rather than the single
+                    product's. Both come from merchant-editable settings and
+                    fall back to the real product price when left empty.
+                  {%- endcomment -%}
+                  {%- if block.settings.tier_price > 0 -%}
+                    {% render 'price-tag',
+                      price: block.settings.tier_price,
+                      compare_at_price: block.settings.tier_compare_at_price,
+                      show_savings_amount: true
+                    %}
+                  {%- else -%}
+                    {% render 'price-tag', product: product, show_discount_percent: true %}
+                  {%- endif -%}
                 </div>
               {%- endif -%}
             </div>
@@ -254,7 +280,22 @@
           "label": "Price tag label",
           "default": "Single bottle",
           "info": "e.g. \"Single bottle\" or \"Any 3 products\""
-        }
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Product icon color",
+          "default": "#6b55b8",
+          "info": "This product's icon is a decorative bottle silhouette in this color, not a photo — no product photography exists yet."
+        },
+        { "type": "header", "content": "Multi-buy price (optional)" },
+        {
+          "type": "number",
+          "id": "tier_price",
+          "label": "Tier price",
+          "info": "Only for slides that quote a multi-buy deal, e.g. \"Any 3 products\". Leave empty to show this product's own price."
+        },
+        { "type": "number", "id": "tier_compare_at_price", "label": "Tier compare-at price" }
       ]
     }
   ],

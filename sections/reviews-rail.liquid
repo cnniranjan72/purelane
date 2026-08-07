@@ -42,6 +42,11 @@
           {{ section.settings.aggregate_note | escape }}
         </p>
       {%- endif -%}
+      {%- if section.settings.reach_note != blank -%}
+        <p class="reviews-rail__aggregate reviews-rail__aggregate--reach">
+          {{ section.settings.reach_note }}
+        </p>
+      {%- endif -%}
     </div>
   </div>
 
@@ -115,6 +120,13 @@
       "id": "aggregate_note",
       "label": "Aggregate note",
       "default": "from 8,000+ reviews"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "reach_note",
+      "label": "Reach note",
+      "default": "Loved by <strong>30,000+</strong> homes",
+      "info": "Second line beside the rating, e.g. how many households."
     },
     {
       "type": "color_scheme",

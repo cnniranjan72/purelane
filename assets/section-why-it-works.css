@@ -2,20 +2,93 @@
   padding: clamp(2.4rem, 3.4vw, 3.6rem);
 }
 
+.why-it-works__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.4rem;
+  align-items: center;
+}
+
+@media screen and (min-width: 750px) {
+  .why-it-works__grid {
+    grid-template-columns: minmax(0, 1fr) 22rem;
+  }
+}
+
 .why-it-works__intro {
   max-width: 56rem;
 }
 
+.why-it-works__rotator {
+  display: block;
+  position: relative;
+  min-height: 24rem;
+  border-radius: var(--pl-radius);
+  background: rgba(var(--color-background), 0.6);
+  border: 1px solid rgba(var(--color-foreground), 0.12);
+  padding: 2rem;
+}
+
+.why-it-works__slide {
+  position: absolute;
+  inset: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--pl-ease);
+}
+
+.why-it-works__slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  position: relative;
+  inset: auto;
+}
+
+.why-it-works__slide-icon {
+  display: block;
+  height: 16rem;
+  margin-bottom: 1.2rem;
+}
+
+.why-it-works__slide-icon .product-icon {
+  height: 100%;
+  width: auto;
+  filter: drop-shadow(0 1.6rem 2.8rem rgba(0, 0, 0, 0.3));
+}
+
+.why-it-works__slide-name {
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin: 0 0 0.3rem;
+}
+
+.why-it-works__slide-tagline {
+  font-size: 1.2rem;
+  opacity: 0.7;
+  margin: 0 0 2rem;
+}
+
+.why-it-works__rotator .hero__dots {
+  position: absolute;
+  bottom: 0.6rem;
+  left: 0;
+  right: 0;
+}
+
 .why-it-works__heading {
-  font-family: var(--font-heading-family);
-  font-size: clamp(2.4rem, 3vw, 3.4rem);
-  line-height: 1.05;
-  margin: 0.6rem 0 1.2rem;
+  margin: 0.6rem 0 1.4rem;
+  max-width: 20ch;
 }
 
 .why-it-works__body {
-  font-size: 1.4rem;
-  opacity: 0.8;
+  font-size: 14.5px;
+  line-height: 1.66;
+  opacity: 0.78;
   max-width: 46ch;
   margin: 0 0 2rem;
 }
@@ -47,7 +120,7 @@
   display: grid;
   place-items: center;
   border: 1.5px solid rgba(var(--color-foreground), 0.3);
-  background: radial-gradient(circle at 34% 26%, rgba(var(--color-foreground), 0.14), rgba(var(--color-button), 0.14));
+  background: radial-gradient(circle at 34% 26%, rgba(var(--color-foreground), 0.14), rgba(var(--pl-accent), 0.14));
   font-family: var(--font-heading-family);
   font-weight: 700;
   font-size: 1.9rem;
@@ -58,7 +131,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgb(var(--color-button));
+  color: rgb(var(--pl-accent));
   margin: 0 0 0.4rem;
 }
 

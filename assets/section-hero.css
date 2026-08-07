@@ -12,31 +12,45 @@
 
 @media screen and (min-width: 900px) {
   .hero__grid {
+    position: relative;
     grid-template-columns: minmax(0, 560px) 1fr;
     gap: 3.2rem;
   }
 }
 
 .hero__copy {
-  max-width: 44rem;
+  max-width: 60rem;
 }
 
 .hero__heading {
-  font-size: clamp(4.2rem, 7vw, 8rem);
-  line-height: 0.9;
-  letter-spacing: -0.015em;
-  text-transform: uppercase;
-  text-shadow: 0 0.6rem 4rem rgba(0, 0, 0, 0.35);
-  margin: 0 0 1.6rem;
+  margin: 0 0 2rem;
 }
 
 .hero__accent {
-  color: rgb(var(--color-button));
+  color: rgb(var(--pl-accent));
+}
+
+/* Thin gradient rule + leaf, the reference's `.rule` divider between the
+   display headline and the supporting copy. */
+.hero__rule {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 0 0 20px;
+  max-width: 270px;
+  color: rgb(var(--pl-accent));
+}
+
+.hero__rule i {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, rgba(75, 58, 143, 0.34), transparent);
 }
 
 .hero__subheading {
   max-width: 44ch;
-  font-size: 1.6rem;
+  font-size: clamp(15px, 1.35vw, 17.5px);
+  line-height: 1.62;
   opacity: 0.85;
 }
 
@@ -69,7 +83,71 @@
 }
 
 .badge-list__item .icon {
-  color: rgb(var(--color-button));
+  color: rgb(var(--pl-accent));
+}
+
+/* On wide viewports, float the badge stack as vertical glass cards
+   overlapping the product media — matching the reference's `.badges`
+   treatment — instead of a chip row under the CTAs. */
+@media screen and (min-width: 900px) {
+  .hero__grid > .hero__copy > .badge-list {
+    position: absolute;
+    top: 50%;
+    right: 1.8rem;
+    transform: translateY(-50%);
+    /* Above the bottles, matching the reference's z-index:4 badges - the
+       rear bottle is meant to read through the translucent glass. */
+    z-index: 4;
+    flex-direction: column;
+    align-items: stretch;
+    width: 11rem;
+    gap: 0;
+    margin: 0;
+    border-radius: var(--pl-radius-sm);
+    overflow: hidden;
+    background: linear-gradient(158deg, rgba(255, 255, 255, 0.8), rgba(236, 230, 247, 0.56) 58%, rgba(222, 212, 240, 0.5));
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 0.8px solid rgba(75, 58, 143, 0.16);
+    box-shadow:
+      0 22px 54px rgba(58, 44, 112, 0.13),
+      inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  }
+
+  .badge-list__item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+    padding: 1.4rem 0.8rem;
+    border: none;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .badge-list__item + .badge-list__item {
+    border-top: 1px solid rgba(75, 58, 143, 0.12);
+  }
+
+  .badge-list__item .icon {
+    width: 3rem;
+    height: 3rem;
+    padding: 0.7rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(75, 58, 143, 0.16);
+    color: rgb(var(--pl-green));
+  }
+
+  .badge-list__item span:last-child {
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    line-height: 1.34;
+    opacity: 0.78;
+  }
 }
 
 /* -------- media / featured product stage -------- */
@@ -84,18 +162,24 @@
   filter: drop-shadow(0 2.4rem 4rem rgba(0, 0, 0, 0.35));
 }
 
+/* All slides share one grid cell, so the stage sizes to the tallest slide
+   and every slide is exactly the same height. The previous approach -
+   absolute inactive slides plus a relative active one - let the active
+   slide size to its own content, so each transition shifted the artwork
+   ~20px vertically and the dots drifted with it. */
 .hero__stage {
-  display: block;
+  display: grid;
+  grid-template-rows: 1fr auto;
   position: relative;
   min-height: 32rem;
 }
 
 .hero__slide {
-  position: absolute;
-  inset: 0;
+  grid-row: 1;
+  grid-column: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: flex-end;
   opacity: 0;
   pointer-events: none;
@@ -105,20 +189,103 @@
 .hero__slide.is-active {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* Staggered rise as each slide's bottles come in. Applied to the inner
+   svg rather than the positioned wrapper so it can't fight the
+   translateX(-50%) that centres the front bottle. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__slide.is-active .hero__bottle-stack-item .product-icon {
+    animation: hero-bottle-in 0.6s var(--pl-ease) backwards;
+  }
+
+  .hero__slide.is-active .hero__bottle-stack-item:nth-last-child(3) .product-icon {
+    animation-delay: 0.06s;
+  }
+
+  .hero__slide.is-active .hero__bottle-stack-item:nth-last-child(2) .product-icon {
+    animation-delay: 0.14s;
+  }
+
+  .hero__slide.is-active .hero__bottle-stack-item:nth-last-child(1) .product-icon {
+    animation-delay: 0.22s;
+  }
+}
+
+@keyframes hero-bottle-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* Must stretch: the bottle stack positions its children absolutely, so
+   without an explicit full width the container collapses to 0 and every
+   percentage offset resolves to the same point. */
+.hero__slide-media {
+  display: block;
+  width: 100%;
+  align-self: stretch;
+}
+
+/* Cumulative bottle stack: slide N shows products 1..N together, the
+   current one largest and frontmost - mirrors how the reference's hero
+   carousel visually grows from one bottle to a group of three.
+   Positions/scales are taken from the reference's own slide-3 geometry
+   (measured, not eyeballed): a shorter bottle back-left, a mid-height one
+   back-right, and the current product tallest and centred in front.
+   The container is inset from the right so the group clears the badge
+   column instead of colliding with it. */
+.hero__bottle-stack {
   position: relative;
+  width: 100%;
+  height: 36rem;
 }
 
-.hero__slide-media img {
-  max-height: 32rem;
+.hero__bottle-stack-item {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  transition:
+    height 0.4s var(--pl-ease),
+    left 0.4s var(--pl-ease);
+}
+
+/* Current product: tallest, front, centred in the clear area. */
+.hero__bottle-stack-item:nth-last-child(1) {
+  left: 45%;
+  transform: translateX(-50%);
+  height: 100%;
+  z-index: 3;
+}
+
+/* Previous product: mid height, tucked back and right - it slips partly
+   under the translucent badge cards exactly as the reference's does,
+   which is why the badges sit at a higher z-index. */
+.hero__bottle-stack-item:nth-last-child(2) {
+  left: 68%;
+  height: 84%;
+  z-index: 1;
+}
+
+/* Oldest product: shortest, back-left. */
+.hero__bottle-stack-item:nth-last-child(3) {
+  left: 20%;
+  height: 78%;
+  z-index: 2;
+}
+
+/* A lone bottle sits centred rather than off to one side. */
+.hero__bottle-stack-item:only-child {
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+}
+
+.hero__bottle-stack .product-icon {
+  height: 100%;
   width: auto;
-  margin: 0 auto;
-  filter: drop-shadow(0 2.4rem 4rem rgba(0, 0, 0, 0.4));
-}
-
-.hero__slide-media--empty {
-  width: 60%;
-  margin: 0 auto;
-  opacity: 0.5;
+  filter: drop-shadow(0 1.4rem 2.2rem rgba(0, 74, 66, 0.15));
 }
 
 .hero__price-tag {
@@ -128,6 +295,7 @@
   flex-direction: column;
   gap: 0.4rem;
   align-self: flex-start;
+  border-radius: var(--pl-radius-sm);
 }
 
 .hero__price-label {
@@ -135,10 +303,12 @@
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgb(var(--color-button));
+  color: rgb(var(--pl-accent));
 }
 
 .hero__dots {
+  grid-row: 2;
+  grid-column: 1;
   display: flex;
   justify-content: center;
   gap: 0.8rem;
@@ -157,12 +327,12 @@
 }
 
 .hero__dots button[aria-current='true'] {
-  background: rgb(var(--color-button));
+  background: rgb(var(--pl-accent));
   width: 2rem;
 }
 
 .hero__dots button:focus-visible {
-  outline: 2px solid rgb(var(--color-button));
+  outline: 2px solid rgb(var(--pl-accent));
   outline-offset: 3px;
 }
 
@@ -173,6 +343,12 @@
   .badge-list {
     text-align: center;
     justify-content: center;
+  }
+
+  .hero__rule {
+    margin: 0 auto 20px;
+    justify-content: center;
+    max-width: 240px;
   }
 
   .hero__copy {

@@ -1,15 +1,32 @@
+/* Reference lays the kicker, the rating and the reach note out on one
+   horizontal line, wrapping only when there isn't room. */
 .reviews-rail__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.8rem 2.4rem;
   text-align: center;
   margin-bottom: 2.2rem;
 }
 
+.reviews-rail__head .section-heading__kicker,
 .reviews-rail__aggregate {
-  margin: 0.6rem 0 0;
+  margin: 0;
   font-size: 1.4rem;
 }
 
+.reviews-rail__aggregate strong {
+  color: rgb(var(--pl-accent));
+  font-weight: 800;
+}
+
+.reviews-rail__aggregate--reach strong {
+  color: rgb(var(--pl-accent));
+}
+
 .reviews-rail__stars {
-  color: rgb(var(--color-button));
+  color: rgb(var(--pl-accent));
   letter-spacing: 0.1em;
   margin-right: 0.6rem;
 }
@@ -36,7 +53,7 @@
 
 .reviews-rail__toggle:focus-visible,
 .reviews-rail__viewport:focus-visible {
-  outline: 2px solid rgb(var(--color-button));
+  outline: 2px solid rgb(var(--pl-accent));
   outline-offset: 3px;
 }
 
@@ -56,9 +73,11 @@
   width: max-content;
 }
 
+/* Reference uses a 12px gap here; kept a touch wider (16px) because the
+   extra breathing room between review cards was an explicit request. */
 .reviews-rail__set {
   display: flex;
-  gap: var(--pl-gap);
+  gap: 16px;
   flex: 0 0 auto;
 }
 
@@ -81,26 +100,32 @@
   }
 }
 
+/* Card metrics taken from the reference's `.rcard`: 284px wide,
+   15px/17px padding, 18px radius, yellow-green stars. */
 .review-card {
-  flex: 0 0 26rem;
-  padding: 1.8rem;
+  flex: 0 0 28.4rem;
+  padding: 15px 17px;
+  border-radius: 18px;
 }
 
 .review-card__stars {
-  color: rgb(var(--color-button));
-  letter-spacing: 0.12em;
-  margin-bottom: 1rem;
+  color: rgb(122, 156, 30);
+  font-size: 10.5px;
+  letter-spacing: 2.1px;
+  margin-bottom: 0.8rem;
 }
 
 .review-card__headline {
-  margin: 0 0 0.8rem;
-  font-size: 1.5rem;
+  margin: 0 0 0.7rem;
+  font-size: 12px;
+  letter-spacing: 0.05em;
 }
 
 .review-card__quote {
-  font-size: 1.3rem;
-  opacity: 0.85;
-  margin: 0 0 1.4rem;
+  font-size: 12.6px;
+  line-height: 1.55;
+  opacity: 0.78;
+  margin: 0 0 1.2rem;
 }
 
 .review-card__who {
@@ -108,14 +133,15 @@
   align-items: center;
   gap: 0.5rem;
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 9.5px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  opacity: 0.72;
 }
 
 .review-card__who .icon {
-  color: rgb(var(--color-button));
+  color: rgb(var(--pl-green));
   flex: 0 0 auto;
 }
 

@@ -31,8 +31,8 @@
 }
 
 .tier--highlight {
-  border-color: rgba(var(--color-button), 0.45);
-  box-shadow: 0 0 0 1px rgba(var(--color-button), 0.2);
+  border-color: rgba(var(--pl-accent), 0.45);
+  box-shadow: 0 0 0 1px rgba(var(--pl-accent), 0.2);
 }
 
 .tier__tag {
@@ -43,18 +43,52 @@
   text-transform: uppercase;
   padding: 0.5rem 1.1rem;
   border-radius: 999px;
-  background: rgba(var(--color-button), 0.16);
-  border: 1px solid rgba(var(--color-button), 0.34);
-  color: rgb(var(--color-button));
+  background: rgba(var(--pl-accent), 0.16);
+  border: 1px solid rgba(var(--pl-accent), 0.34);
+  color: rgb(var(--pl-accent));
   margin-bottom: 1.4rem;
+}
+
+/* Miniature bottle row showing the tier's quantity visually. */
+.tier__pix {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 8.4rem;
+  padding: 1.2rem 1rem 1rem;
+  margin-bottom: 1.4rem;
+  border-radius: var(--pl-radius-sm);
+  background: linear-gradient(168deg, rgba(255, 255, 255, 0.55), rgba(var(--color-foreground), 0.05));
+}
+
+.tier__pix .product-icon {
+  height: 6.2rem;
+  width: auto;
+  filter: drop-shadow(0 0.5rem 0.8rem rgba(0, 74, 66, 0.13));
+}
+
+.tier__pix:has(.product-icon:nth-child(5)) .product-icon {
+  height: 5.4rem;
+}
+
+.tier__pix:has(.product-icon:nth-child(7)) .product-icon {
+  height: 4.6rem;
 }
 
 .tier__qty {
   font-family: var(--font-heading-family);
-  font-weight: 700;
-  font-size: clamp(3.4rem, 9vw, 4.4rem);
+  font-weight: 800;
+  font-size: clamp(3.8rem, 9vw, 5.2rem);
   line-height: 0.9;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  color: #17102b;
+}
+
+.tier__per-unit {
+  font-size: 1.3rem;
+  opacity: 0.75;
+  margin: 0.4rem 0 0;
 }
 
 .tier__qty small {
@@ -87,7 +121,7 @@
 }
 
 .tier__features .icon {
-  color: rgb(var(--color-button));
+  color: rgb(var(--pl-green));
   margin-top: 0.2rem;
 }
 

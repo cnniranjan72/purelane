@@ -24,6 +24,7 @@
       assign has_combo_content = true
     endif
   endfor
+  assign icon_palette = '6b55b8,5a46a3,6250ad,55429b,8168c9,8f74d4' | split: ','
 -%}
 
 <section
@@ -55,6 +56,16 @@
                 <article class="combo-card pl-surface pl-tilt">
                   {%- if combo.components.value.size > 0 -%}
                     <div class="combo-card__tray">
+                      {%- liquid
+                        assign bundle = combo.bundle_product.value
+                        assign saving = 0
+                        if bundle != blank and bundle.compare_at_price > bundle.price
+                          assign saving = bundle.compare_at_price | minus: bundle.price
+                        endif
+                      -%}
+                      {%- if saving > 0 -%}
+                        <span class="combo-card__save">You save {{ saving | money_without_trailing_zeros }}</span>
+                      {%- endif -%}
                       {%- if combo.flag != blank -%}
                         <span class="combo-card__flag">{{ combo.flag.value | escape }}</span>
                       {%- endif -%}
@@ -63,12 +74,9 @@
                           {%- unless forloop.first -%}
                             <span class="combo-card__plus">+</span>
                           {%- endunless -%}
+                          {%- assign icon_index = forloop.index0 | modulo: icon_palette.size -%}
                           <span class="combo-card__thumb">
-                            {%- if component.featured_image -%}
-                              {{ component.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: component.title }}
-                            {%- else -%}
-                              {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
-                            {%- endif -%}
+                            {% render 'product-icon', color: icon_palette[icon_index], name: component.title %}
                           </span>
                         {%- endfor -%}
                       </div>
@@ -88,11 +96,14 @@
 
                     {%- if combo.bundle_product.value != blank -%}
                       {% render 'price-tag', product: combo.bundle_product.value, show_savings_amount: true %}
+                      {%- if section.settings.price_note != blank -%}
+                        <p class="combo-card__note">{{ section.settings.price_note | escape }}</p>
+                      {%- endif -%}
                       <a
                         href="{{ combo.bundle_product.value.url }}"
                         class="button button--secondary combo-card__cta"
                       >
-                        Shop bundle
+                        {{- section.settings.cta_label | escape -}}
                         {% render 'icon', name: 'arrow', size: 16 %}
                       </a>
                     {%- endif -%}
@@ -117,6 +128,16 @@
           </button>
         </div>
       </slider-component>
+
+      {%- if section.settings.swipe_hint != blank -%}
+        <p class="combos__hint">
+          {% render 'icon', name: 'arrow', size: 14 %}
+          {{ section.settings.swipe_hint | escape }}
+        </p>
+      {%- endif -%}
+      {%- if section.settings.rail_note != blank -%}
+        <p class="combos__note">{{ section.settings.rail_note | escape }}</p>
+      {%- endif -%}
     {%- else -%}
       <p class="combos__empty">Add a combo block and pick a "combo" entry to feature it here.</p>
     {%- endif -%}
@@ -138,7 +159,21 @@
       "type": "text",
       "id": "lede",
       "label": "Supporting line",
-      "default": "Swipe through the boxes people order most."
+      "default": "Swipe through the boxes people order most. Each one is already priced below buying the same products on their own."
+    },
+    { "type": "text", "id": "cta_label", "label": "Card button label", "default": "Shop bundle" },
+    {
+      "type": "text",
+      "id": "price_note",
+      "label": "Price note",
+      "default": "Inclusive of all taxes · COD available"
+    },
+    { "type": "text", "id": "swipe_hint", "label": "Swipe hint", "default": "Swipe for more combos" },
+    {
+      "type": "textarea",
+      "id": "rail_note",
+      "label": "Rail note",
+      "default": "Tapping \"Shop bundle\" opens the bundle picker with these products already added. You can still swap anything before you pay."
     },
     {
       "type": "color_scheme",

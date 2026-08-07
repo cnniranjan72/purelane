@@ -16,6 +16,7 @@
 {%- endstyle -%}
 
 {%- assign stat_blocks = section.blocks | where: 'type', 'stat' -%}
+{%- assign product_blocks = section.blocks | where: 'type', 'product' -%}
 
 <section
   id="why-it-works"
@@ -23,28 +24,67 @@
 >
   <div class="page-width">
     <div class="why-it-works__panel pl-surface{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      <div class="why-it-works__intro">
-        {%- if section.settings.kicker != blank -%}
-          <p class="section-heading__kicker">{{ section.settings.kicker | escape }}</p>
-        {%- endif -%}
-        {%- if section.settings.heading != blank -%}
-          <h2 class="why-it-works__heading">{{ section.settings.heading | escape }}</h2>
-        {%- endif -%}
-        {%- if section.settings.body != blank -%}
-          <p class="why-it-works__body">{{ section.settings.body | escape }}</p>
-        {%- endif -%}
-        {%- if section.settings.link_label != blank -%}
-          <a
-            {% if section.settings.link == blank %}
-              role="link" aria-disabled="true"
-            {% else %}
-              href="{{ section.settings.link }}"
-            {% endif %}
-            class="button button--primary why-it-works__link"
-          >
-            {{- section.settings.link_label | escape -}}
-            {% render 'icon', name: 'arrow', size: 16 %}
-          </a>
+      <div class="why-it-works__grid">
+        <div class="why-it-works__intro">
+          {%- if section.settings.kicker != blank -%}
+            <p class="section-heading__kicker">{{ section.settings.kicker | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="why-it-works__heading">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+          {%- if section.settings.body != blank -%}
+            <p class="why-it-works__body">{{ section.settings.body | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.link_label != blank -%}
+            <a
+              {% if section.settings.link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.link }}"
+              {% endif %}
+              class="button button--primary why-it-works__link"
+            >
+              {{- section.settings.link_label | escape -}}
+              {% render 'icon', name: 'arrow', size: 16 %}
+            </a>
+          {%- endif -%}
+        </div>
+
+        {%- if product_blocks.size > 0 -%}
+          <hero-stage class="why-it-works__rotator">
+            {%- for block in product_blocks -%}
+              {%- assign product = block.settings.product -%}
+              <div
+                class="why-it-works__slide{% if forloop.first %} is-active{% endif %}"
+                data-hero-slide
+                {% unless forloop.first %}aria-hidden="true"{% endunless %}
+                {{ block.shopify_attributes }}
+              >
+                {%- if product != blank -%}
+                  <span class="why-it-works__slide-icon">
+                    {% render 'product-icon', color: block.settings.icon_color, name: product.title %}
+                  </span>
+                  <p class="why-it-works__slide-name">{{ product.title }}</p>
+                  {%- if block.settings.tagline != blank -%}
+                    <p class="why-it-works__slide-tagline">{{ block.settings.tagline | escape }}</p>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+
+            {%- if product_blocks.size > 1 -%}
+              <div class="hero__dots" role="group" aria-label="Featured product">
+                {%- for block in product_blocks -%}
+                  <button
+                    type="button"
+                    aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                    aria-label="Show product {{ forloop.index }} of {{ forloop.length }}"
+                    data-hero-dot
+                  ></button>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </hero-stage>
         {%- endif -%}
       </div>
 
@@ -54,7 +94,7 @@
             <div class="stat" {{ block.shopify_attributes }}>
               <div class="stat__ring">{{ block.settings.value | escape }}</div>
               {%- if block.settings.label != blank -%}
-                <h4 class="stat__label">{{ block.settings.label | escape }}</h4>
+                <h3 class="stat__label">{{ block.settings.label | escape }}</h3>
               {%- endif -%}
               {%- if block.settings.description != blank -%}
                 <p class="stat__desc">{{ block.settings.description | escape }}</p>
@@ -66,6 +106,10 @@
     </div>
   </div>
 </section>
+
+{%- if product_blocks.size > 1 -%}
+  <script src="{{ 'hero-stage.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 {% schema %}
 {
@@ -128,6 +172,21 @@
         { "type": "text", "id": "value", "label": "Value", "default": "99.9%" },
         { "type": "text", "id": "label", "label": "Label", "default": "Germ kill" },
         { "type": "text", "id": "description", "label": "Description", "default": "Tested against germs and bacteria" }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "Featured product",
+      "limit": 3,
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "tagline", "label": "Tagline", "default": "Foam lifts grease, no scrubbing" },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Product icon color",
+          "default": "#6b55b8"
+        }
       ]
     }
   ],

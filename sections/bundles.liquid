@@ -16,6 +16,7 @@
 {%- endstyle -%}
 
 {%- assign tier_blocks = section.blocks | where: 'type', 'tier' -%}
+{%- assign icon_palette = '6b55b8,5a46a3,6250ad,55429b,8168c9,8f74d4' | split: ',' -%}
 
 <section
   id="bundles"
@@ -45,13 +46,31 @@
             {%- endif -%}
 
             {%- if block.settings.quantity > 0 -%}
+              {%- comment -%}
+                A visual count of what's in the box - the reference shows
+                the tier's quantity as that many miniature bottles above
+                the number, so the size difference between tiers reads at
+                a glance rather than only as a digit.
+              {%- endcomment -%}
+              <div class="tier__pix" aria-hidden="true">
+                {%- for i in (1..block.settings.quantity) -%}
+                  {%- assign pix_index = forloop.index0 | modulo: icon_palette.size -%}
+                  {% render 'product-icon', color: icon_palette[pix_index], name: '' %}
+                {%- endfor -%}
+              </div>
+
               <div class="tier__qty">
                 {{ block.settings.quantity }}
-                <small>Products</small>
+                <small>{{ section.settings.quantity_label | escape }}</small>
               </div>
             {%- endif -%}
 
             {% render 'price-tag', price: block.settings.price, compare_at_price: block.settings.compare_at_price %}
+
+            {%- if block.settings.quantity > 0 and block.settings.price > 0 -%}
+              {%- assign per_unit = block.settings.price | divided_by: block.settings.quantity | round -%}
+              <p class="tier__per-unit">Flat {{ per_unit | times: 100 | money_without_trailing_zeros }} per product</p>
+            {%- endif -%}
 
             {%- if features.size > 0 -%}
               <ul class="tier__features">
@@ -103,6 +122,13 @@
       "id": "lede",
       "label": "Supporting line",
       "default": "Mix and match across kitchen, laundry, home and skin."
+    },
+    {
+      "type": "text",
+      "id": "quantity_label",
+      "label": "Quantity label",
+      "default": "Products",
+      "info": "Shown under each tier's number, e.g. \"3 Products\"."
     },
     {
       "type": "color_scheme",

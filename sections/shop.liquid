@@ -30,6 +30,7 @@
   if collection != blank and collection.products.size > 0
     assign has_products = true
   endif
+  assign icon_palette = '6b55b8,5a46a3,6250ad,55429b,8168c9,8f74d4' | split: ','
 -%}
 
 <section
@@ -53,26 +54,29 @@
               style="--animation-order: {{ forloop.index }};"
             {% endif %}
           >
-            {%- if product.tags contains 'best-seller' and section.settings.badge_best_seller_label != blank -%}
-              <span class="shop-grid__tag-badge">{{ section.settings.badge_best_seller_label | escape }}</span>
-            {%- elsif product.tags contains 'new' and section.settings.badge_new_label != blank -%}
-              <span class="shop-grid__tag-badge">{{ section.settings.badge_new_label | escape }}</span>
-            {%- elsif product.tags contains 'top-rated' and section.settings.badge_top_rated_label != blank -%}
-              <span class="shop-grid__tag-badge">{{ section.settings.badge_top_rated_label | escape }}</span>
-            {%- endif -%}
-            {% render 'card-product',
-              card_product: product,
-              media_aspect_ratio: 'square',
-              show_rating: true,
-              lazy_load: forloop.index > section.settings.columns_desktop,
+            {%- liquid
+              assign badge_label = ''
+              if product.tags contains 'best-seller' and section.settings.badge_best_seller_label != blank
+                assign badge_label = section.settings.badge_best_seller_label
+              elsif product.tags contains 'new' and section.settings.badge_new_label != blank
+                assign badge_label = section.settings.badge_new_label
+              elsif product.tags contains 'top-rated' and section.settings.badge_top_rated_label != blank
+                assign badge_label = section.settings.badge_top_rated_label
+              endif
+              assign icon_index = forloop.index0 | modulo: icon_palette.size
+            -%}
+            {% render 'shop-card',
+              product: product,
               section_id: section.id,
-              quick_add: section.settings.quick_add
+              icon_color: icon_palette[icon_index],
+              badge_label: badge_label
             %}
           </li>
         {%- endfor -%}
       {%- else -%}
-        {%- comment -%} Empty collection / not yet configured: same placeholder cards Dawn uses elsewhere, so the merchant sees the real card design instead of a blank grid. {%- endcomment -%}
+        {%- comment -%} Empty collection / not yet configured: show the real card shape so the merchant sees the design rather than a blank grid. {%- endcomment -%}
         {%- for i in (1..section.settings.columns_desktop) -%}
+          {%- assign icon_index = forloop.index0 | modulo: icon_palette.size -%}
           <li
             class="shop-grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
             {% if settings.animations_reveal_on_scroll %}
@@ -80,7 +84,13 @@
               style="--animation-order: {{ forloop.index }};"
             {% endif %}
           >
-            {% render 'card-product', media_aspect_ratio: 'square' %}
+            <article class="shop-card pl-surface">
+              <div class="shop-card__shot">
+                {% render 'product-icon', color: icon_palette[icon_index], name: 'Example product' %}
+              </div>
+              <h3 class="shop-card__name">Example product</h3>
+              <p class="shop-card__placeholder-note">Pick a collection to show real products here.</p>
+            </article>
           </li>
         {%- endfor -%}
       {%- endif -%}
@@ -88,7 +98,9 @@
 
     {%- if has_products and section.settings.show_view_all -%}
       <div class="shop-grid__view-all">
-        <a href="{{ collection.url }}" class="button button--secondary">View all</a>
+        <a href="{{ collection.url }}" class="button button--secondary">
+          {{- section.settings.view_all_label | escape -}}
+        </a>
       </div>
     {%- endif -%}
   </div>
@@ -151,6 +163,7 @@
       "default": "standard"
     },
     { "type": "checkbox", "id": "show_view_all", "label": "Show \"View all\" link", "default": true },
+    { "type": "text", "id": "view_all_label", "label": "\"View all\" label", "default": "View all" },
     { "type": "header", "content": "Product badges" },
     {
       "type": "paragraph",

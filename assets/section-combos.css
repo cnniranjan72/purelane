@@ -25,19 +25,37 @@
   position: relative;
 }
 
+/* Savings pill, top-left of the tray, opposite the flag - the reference
+   surfaces the number twice on purpose (tray pill + price row). */
+.combo-card__save {
+  position: absolute;
+  top: 1.4rem;
+  left: 1.4rem;
+  z-index: 1;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(75, 58, 143, 0.16);
+  color: rgb(var(--pl-accent));
+}
+
 .combo-card__flag {
   position: absolute;
   top: 1.4rem;
   right: 1.4rem;
-  font-size: 1rem;
+  z-index: 1;
+  font-size: 9.5px;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 0.5rem 1rem;
   border-radius: 999px;
-  background: rgba(var(--color-button), 0.16);
-  border: 1px solid rgba(var(--color-button), 0.4);
-  color: rgb(var(--color-button));
+  background: linear-gradient(135deg, rgb(var(--color-button)), #004b46);
+  color: #f4fdf6;
 }
 
 /* Distinct band behind the product stack, separated from the card body
@@ -47,7 +65,7 @@
   position: relative;
   padding: 1.4rem 1.4rem 1.3rem;
   border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
-  background: linear-gradient(162deg, rgba(var(--color-foreground), 0.05), rgba(var(--color-button), 0.05));
+  background: linear-gradient(162deg, rgba(var(--color-foreground), 0.05), rgba(var(--pl-accent), 0.05));
 }
 
 .combo-card__stack {
@@ -76,7 +94,7 @@
   flex: 0 0 auto;
   font-weight: 800;
   font-size: 1.2rem;
-  color: rgb(var(--color-button));
+  color: rgb(var(--pl-accent));
   padding: 0 0.2rem;
 }
 
@@ -103,6 +121,34 @@
 .combo-card__cta {
   margin-top: 1.4rem;
   align-self: flex-start;
+}
+
+.combo-card__note {
+  font-size: 1.15rem;
+  opacity: 0.6;
+  margin: 0.5rem 0 0;
+}
+
+.combos__hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin: 1.4rem 0 0;
+  color: rgb(var(--pl-green));
+}
+
+.combos__note {
+  text-align: center;
+  font-size: 1.25rem;
+  opacity: 0.62;
+  max-width: 62ch;
+  margin: 0.8rem auto 0;
 }
 
 .combos__empty {

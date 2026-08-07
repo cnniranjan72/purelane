@@ -22,11 +22,21 @@
   class="how-it-works color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
 >
   <div class="page-width">
-    {% render 'section-heading',
-      kicker: section.settings.kicker,
-      heading: section.settings.heading,
-      lede: section.settings.lede
-    %}
+    {%- comment -%}
+      The reference runs this section as bare pillar cards with no visible
+      heading. A merchant can still add one; when they don't, a
+      visually-hidden heading keeps the document outline intact rather
+      than leaving a section with no heading at all.
+    {%- endcomment -%}
+    {%- if section.settings.heading != blank -%}
+      {% render 'section-heading',
+        kicker: section.settings.kicker,
+        heading: section.settings.heading,
+        lede: section.settings.lede
+      %}
+    {%- else -%}
+      <h2 class="visually-hidden">How it works</h2>
+    {%- endif -%}
 
     {%- if pillar_blocks.size > 0 -%}
       <div class="pillars">

@@ -48,6 +48,34 @@
             "icon": "no-chemicals",
             "label": "Zero harsh chemicals"
           }
+        },
+        "prod-1": {
+          "type": "featured_product",
+          "settings": {
+            "product": "purelane-foaming-kitchen-cleaner",
+            "label": "Single bottle",
+            "icon_color": "#6b55b8"
+          }
+        },
+        "prod-2": {
+          "type": "featured_product",
+          "settings": {
+            "product": "purelane-tap-limescale-remover",
+            "label": "Any 2 products",
+            "icon_color": "#8168c9",
+            "tier_price": 349,
+            "tier_compare_at_price": 598
+          }
+        },
+        "prod-3": {
+          "type": "featured_product",
+          "settings": {
+            "product": "purelane-copper-brass-cleaner",
+            "label": "Any 3 products",
+            "icon_color": "#5a46a3",
+            "tier_price": 499,
+            "tier_compare_at_price": 897
+          }
         }
       },
       "block_order": [
@@ -55,7 +83,10 @@
         "cta-2",
         "badge-1",
         "badge-2",
-        "badge-3"
+        "badge-3",
+        "prod-1",
+        "prod-2",
+        "prod-3"
       ],
       "settings": {
         "heading": "Clean That Lasts",
@@ -72,28 +103,28 @@
       "blocks": {
         "ing-1": {
           "type": "ingredient",
-          "settings": { "icon": "droplet", "name": "Coconut", "description": "Plant-derived cleansers that lift grease" }
+          "settings": { "icon": "coconut", "name": "Coconut", "description": "Plant-derived cleansers that lift grease" }
         },
         "ing-2": {
           "type": "ingredient",
-          "settings": { "icon": "citrus", "name": "Orange peel", "description": "Natural degreaser and fresh citrus lift" }
+          "settings": { "icon": "orange-peel", "name": "Orange peel", "description": "Natural degreaser and fresh citrus lift" }
         },
         "ing-3": {
           "type": "ingredient",
-          "settings": { "icon": "sprout", "name": "Soap nut", "description": "A traditional plant foaming agent" }
+          "settings": { "icon": "soap-nut", "name": "Soap nut", "description": "A traditional plant foaming agent" }
         },
         "ing-4": {
           "type": "ingredient",
-          "settings": { "icon": "leaf", "name": "Neem", "description": "Time-tested antibacterial from the tree" }
+          "settings": { "icon": "neem", "name": "Neem", "description": "Time-tested antibacterial from the tree" }
         },
         "ing-5": {
           "type": "ingredient",
-          "settings": { "icon": "sprout", "name": "Lemongrass", "description": "Clean fragrance with nothing synthetic" }
+          "settings": { "icon": "lemongrass", "name": "Lemongrass", "description": "Clean fragrance with nothing synthetic" }
         }
       },
       "block_order": ["ing-1", "ing-2", "ing-3", "ing-4", "ing-5"],
       "settings": {
-        "kicker": "What's inside",
+        "kicker": "",
         "heading": "Sourced from nature",
         "color_scheme": "scheme-6",
         "padding_top": 48,
@@ -136,8 +167,8 @@
       },
       "block_order": ["pillar-1", "pillar-2", "pillar-3"],
       "settings": {
-        "kicker": "The short version",
-        "heading": "How it works",
+        "kicker": "",
+        "heading": "",
         "color_scheme": "scheme-6",
         "padding_top": 48,
         "padding_bottom": 48
@@ -161,15 +192,39 @@
         "stat-4": {
           "type": "stat",
           "settings": { "value": "4.8", "label": "Rated", "description": "Across 8,000+ verified reviews" }
+        },
+        "prod-1": {
+          "type": "product",
+          "settings": {
+            "product": "purelane-foaming-kitchen-cleaner",
+            "tagline": "Foam lifts grease, no scrubbing",
+            "icon_color": "#6b55b8"
+          }
+        },
+        "prod-2": {
+          "type": "product",
+          "settings": {
+            "product": "purelane-tap-limescale-remover",
+            "tagline": "Melts limescale on contact",
+            "icon_color": "#8168c9"
+          }
+        },
+        "prod-3": {
+          "type": "product",
+          "settings": {
+            "product": "purelane-copper-brass-cleaner",
+            "tagline": "Restores shine without scratching",
+            "icon_color": "#5a46a3"
+          }
         }
       },
-      "block_order": ["stat-1", "stat-2", "stat-3", "stat-4"],
+      "block_order": ["stat-1", "stat-2", "stat-3", "stat-4", "prod-1", "prod-2", "prod-3"],
       "settings": {
         "kicker": "Why it works",
         "heading": "Tough on grime. Gentle on everything else.",
         "body": "Every formula is built on plant-derived cleansers and essential oils. It behaves exactly like the cleaner you are used to, minus the things you never signed up for.",
-        "link_label": "Shop the range",
-        "link": "#shop",
+        "link_label": "See the ingredient list",
+        "link": "#ingredients",
         "color_scheme": "scheme-6",
         "padding_top": 48,
         "padding_bottom": 48
@@ -180,7 +235,7 @@
       "settings": {
         "kicker": "Bestsellers",
         "heading": "Loved by 30,000 homes",
-        "lede": "Real Shopify products — sold-out state, missing images and long titles all handled automatically.",
+        "lede": "",
         "collection": "bestsellers",
         "products_to_show": 8,
         "columns_desktop": 4,
@@ -222,7 +277,10 @@
       "settings": {
         "kicker": "Pre-built to save you money",
         "heading": "Best selling combos",
-        "lede": "Swipe through the boxes people order most.",
+        "lede": "Swipe through the boxes people order most. Each one is already priced below buying the same products on their own.",
+        "price_note": "Inclusive of all taxes · COD available",
+        "swipe_hint": "Swipe for more combos",
+        "rail_note": "Tapping \"Shop bundle\" opens the bundle picker with these products already added. You can still swap anything before you pay.",
         "color_scheme": "scheme-6",
         "padding_top": 48,
         "padding_bottom": 48
@@ -293,10 +351,124 @@
       "settings": {
         "kicker": "Build your bundle",
         "heading": "One box. Every room.",
-        "lede": "Mix and match across kitchen, laundry, home and skin.",
+        "lede": "Mix and match across kitchen, laundry, home and skin. One flat price, no code needed, free shipping either way.",
         "color_scheme": "scheme-6",
         "padding_top": 48,
         "padding_bottom": 48
+      }
+    },
+    "product-shelf": {
+      "type": "product-shelf",
+      "settings": {
+        "kicker": "The full range",
+        "heading": "Every room, one shelf",
+        "lede": "Floors, taps, kitchen, laundry, bathroom and hands — plant-based formulas that replace every harsh bottle under your sink.",
+        "collection": "bestsellers",
+        "products_to_show": 8,
+        "color_scheme": "scheme-6",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "why-bundles": {
+      "type": "why-bundles",
+      "blocks": {
+        "reason-1": {
+          "type": "reason",
+          "settings": {
+            "icon": "coins",
+            "heading": "Save up to 45%",
+            "body": "Versus buying the same products separately"
+          }
+        },
+        "reason-2": {
+          "type": "reason",
+          "settings": {
+            "icon": "box-check",
+            "heading": "One flat price",
+            "body": "No calculators, no comparing carts"
+          }
+        },
+        "reason-3": {
+          "type": "reason",
+          "settings": {
+            "icon": "star",
+            "heading": "Curated by experts",
+            "body": "Products picked to work well together"
+          }
+        },
+        "reason-4": {
+          "type": "reason",
+          "settings": {
+            "icon": "truck",
+            "heading": "Free shipping always",
+            "body": "Included on every bundle, all India"
+          }
+        }
+      },
+      "block_order": ["reason-1", "reason-2", "reason-3", "reason-4"],
+      "settings": {
+        "kicker": "The smarter way to shop",
+        "heading": "Why bundles beat buying single",
+        "color_scheme": "scheme-6",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "bundle-categories": {
+      "type": "bundle-categories",
+      "blocks": {
+        "cat-1": {
+          "type": "category",
+          "settings": { "product": "purelane-foaming-kitchen-cleaner", "icon_color": "#6b55b8", "heading": "Kitchen bundle", "body": "Grease, dishes & more", "link": "#combos" }
+        },
+        "cat-2": {
+          "type": "category",
+          "settings": { "product": "purelane-toilet-cleaner", "icon_color": "#6250ad", "heading": "Bathroom bundle", "body": "Deep clean & disinfect", "link": "#combos" }
+        },
+        "cat-3": {
+          "type": "category",
+          "settings": { "product": "purelane-washing-machine-cleaner", "icon_color": "#5a46a3", "heading": "Laundry bundle", "body": "Softer, fresher wash", "link": "#combos" }
+        },
+        "cat-4": {
+          "type": "category",
+          "settings": { "product": "purelane-tap-limescale-remover", "icon_color": "#8168c9", "heading": "Hard water bundle", "body": "Melt away limescale", "link": "#combos" }
+        }
+      },
+      "block_order": ["cat-1", "cat-2", "cat-3", "cat-4"],
+      "settings": {
+        "kicker": "Bundle categories",
+        "heading": "Find the right bundle for you",
+        "color_scheme": "scheme-6",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "trust-bar": {
+      "type": "trust-bar",
+      "blocks": {
+        "item-1": { "type": "item", "settings": { "icon": "leaf", "label": "Plant derived formulas" } },
+        "item-2": { "type": "item", "settings": { "icon": "package", "label": "Recyclable packaging" } },
+        "item-3": { "type": "item", "settings": { "icon": "heart", "label": "Safe for kids & pets" } },
+        "item-4": { "type": "item", "settings": { "icon": "globe", "label": "Made in India" } }
+      },
+      "block_order": ["item-1", "item-2", "item-3", "item-4"],
+      "settings": {
+        "color_scheme": "scheme-6",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "newsletter-panel": {
+      "type": "newsletter-panel",
+      "settings": {
+        "kicker": "Join the Purelane Club",
+        "heading": "Get ₹100 off your first bundle",
+        "lede": "Plus first access to new launches and restocks.",
+        "button_label": "Get my ₹100 off",
+        "color_scheme": "scheme-6",
+        "padding_top": 48,
+        "padding_bottom": 64
       }
     },
     "reviews": {
@@ -337,6 +509,7 @@
         "kicker": "That's what they said",
         "aggregate_rating": "4.8",
         "aggregate_note": "from 8,000+ reviews",
+        "reach_note": "Loved by <strong>30,000+</strong> homes",
         "color_scheme": "scheme-6",
         "padding_top": 48,
         "padding_bottom": 64
@@ -345,12 +518,17 @@
   },
   "order": [
     "hero",
+    "reviews",
     "ingredients",
     "how-it-works",
     "why-it-works",
-    "shop",
     "combos",
     "bundles",
-    "reviews"
+    "shop",
+    "product-shelf",
+    "why-bundles",
+    "bundle-categories",
+    "trust-bar",
+    "newsletter-panel"
   ]
 }
