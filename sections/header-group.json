@@ -2,30 +2,43 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
+    "marquee-bar": {
+      "type": "marquee-bar",
       "settings": {
         "color_scheme": "scheme-1",
-        "show_line_separator": true,
-        "show_social": false,
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "enable_country_selector": false,
-        "enable_language_selector": false
+        "speed": 30
       },
       "blocks": {
-        "announcement-bar-0": {
-          "type": "announcement",
+        "marquee-bar-0": {
+          "type": "message",
           "settings": {
-            "text": "Welcome to our store",
-            "text_alignment": "center",
-            "color_scheme": "scheme-1",
-            "link": ""
+            "text": "<p>Free shipping <strong>on every bundle across India</strong></p>"
+          }
+        },
+        "marquee-bar-1": {
+          "type": "message",
+          "settings": {
+            "text": "<p>100% plant-based <strong>and non-toxic</strong></p>"
+          }
+        },
+        "marquee-bar-2": {
+          "type": "message",
+          "settings": {
+            "text": "<p>Loved by <strong>30,000+ happy homes</strong></p>"
+          }
+        },
+        "marquee-bar-3": {
+          "type": "message",
+          "settings": {
+            "text": "<p>Buy 3 products <strong>at flat ₹499</strong></p>"
           }
         }
       },
       "block_order": [
-        "announcement-bar-0"
+        "marquee-bar-0",
+        "marquee-bar-1",
+        "marquee-bar-2",
+        "marquee-bar-3"
       ]
     },
     "header": {
@@ -49,7 +62,7 @@
     }
   },
   "order": [
-    "announcement-bar",
+    "marquee-bar",
     "header"
   ]
 }

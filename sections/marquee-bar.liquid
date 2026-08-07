@@ -1,0 +1,71 @@
+{{ 'section-marquee-bar.css' | asset_url | stylesheet_tag }}
+
+{%- assign message_blocks = section.blocks | where: 'type', 'message' -%}
+
+{%- if message_blocks.size > 0 -%}
+  <div class="marquee color-{{ section.settings.color_scheme }}" aria-hidden="true">
+    <div class="marquee__track" style="--marquee-duration: {{ section.settings.speed }}s;">
+      {%- for i in (1..2) -%}
+        {%- for block in message_blocks -%}
+          <span class="marquee__item" {% if i == 1 %}{{ block.shopify_attributes }}{% endif %}>
+            {{- block.settings.text -}}
+          </span>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Marquee bar",
+  "max_blocks": 12,
+  "class": "marquee-bar-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "s",
+      "label": "Full loop duration",
+      "default": 30,
+      "info": "One full pass of the messages, seamlessly looping. Lower is faster."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Free shipping <strong>on every order</strong></p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee bar",
+      "blocks": [
+        { "type": "message" },
+        { "type": "message" },
+        { "type": "message" }
+      ]
+    }
+  ]
+}
+{% endschema %}

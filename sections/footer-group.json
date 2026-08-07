@@ -2,27 +2,41 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
-    "footer": {
-      "type": "footer",
-      "blocks": {},
-      "block_order": [],
+    "brand-footer": {
+      "type": "brand-footer",
+      "blocks": {
+        "col-shop": {
+          "type": "column",
+          "settings": {
+            "heading": "Shop",
+            "text": "<p><a href=\"/collections/bestsellers\">Bestsellers</a></p><p><a href=\"/#shop\">All products</a></p><p><a href=\"/#combos\">Combos</a></p><p><a href=\"/#bundles\">Build a bundle</a></p>"
+          }
+        },
+        "col-about": {
+          "type": "column",
+          "settings": {
+            "heading": "About",
+            "text": "<p><a href=\"/#how-it-works\">How it works</a></p><p><a href=\"/#ingredients\">Ingredients</a></p><p><a href=\"/#why-it-works\">Why it works</a></p><p><a href=\"/#reviews\">Reviews</a></p>"
+          }
+        },
+        "col-contact": {
+          "type": "column",
+          "settings": {
+            "heading": "Get in touch",
+            "text": "<p><a href=\"mailto:hello@purelane.com\">hello@purelane.com</a></p><p><a href=\"tel:+919930123234\">+91 9930 123 234</a></p>"
+          }
+        }
+      },
+      "block_order": ["col-shop", "col-about", "col-contact"],
       "settings": {
-        "color_scheme": "scheme-1",
-        "newsletter_enable": true,
-        "newsletter_heading": "Subscribe to our emails",
-        "enable_follow_on_shop": true,
-        "show_social": true,
-        "enable_country_selector": true,
-        "enable_language_selector": true,
-        "payment_enable": true,
-        "show_policy": true,
-        "margin_top": 0,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "brand_tagline": "Clean, simply",
+        "brand_text": "<p>Effective cleaning, powered by nature. Made for Indian homes since day one.</p>",
+        "legal_name": "Purelane Eco Products Private Limited",
+        "color_scheme": "scheme-8",
+        "padding_top": 56,
+        "padding_bottom": 40
       }
     }
   },
-  "order": [
-    "footer"
-  ]
+  "order": ["brand-footer"]
 }

@@ -1,0 +1,155 @@
+{{ 'purelane-shared.css' | asset_url | stylesheet_tag }}
+{{ 'header-pill.css' | asset_url | stylesheet_tag }}
+{{ 'section-brand-footer.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- assign column_blocks = section.blocks | where: 'type', 'column' -%}
+
+<footer class="brand-footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="brand-footer__grid">
+      <div class="brand-footer__brand">
+        <a href="{{ routes.root_url }}" class="brand-footer__logo">
+          {% render 'brand-mark', tagline: section.settings.brand_tagline %}
+        </a>
+        {%- if section.settings.brand_text != blank -%}
+          <p class="brand-footer__blurb">{{ section.settings.brand_text }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- for block in column_blocks -%}
+        <div class="brand-footer__col" {{ block.shopify_attributes }}>
+          {%- if block.settings.heading != blank -%}
+            <h2 class="brand-footer__col-heading">{{ block.settings.heading | escape }}</h2>
+          {%- endif -%}
+          {%- if block.settings.menu != blank -%}
+            <ul class="brand-footer__links" role="list">
+              {%- for link in block.settings.menu.links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- elsif block.settings.text != blank -%}
+            <div class="brand-footer__links brand-footer__links--text rte">
+              {{ block.settings.text }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="brand-footer__bar">
+      <p class="brand-footer__copy">
+        &copy; {{ 'now' | date: '%Y' }} {{ section.settings.legal_name | default: shop.name }}
+      </p>
+      {%- comment -%}
+        Real Shopify policy pages, not a hand-made menu — each link only
+        renders if that policy actually exists in Settings → Policies, so
+        this can never produce a dead "Refunds" link the way the
+        prototype's hardcoded list would.
+      {%- endcomment -%}
+      {%- assign has_policy = false -%}
+      {%- for policy in shop.policies -%}
+        {%- if policy != blank -%}
+          {%- assign has_policy = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if has_policy -%}
+        <ul class="brand-footer__policies" role="list">
+          {%- for policy in shop.policies -%}
+            {%- if policy != blank -%}
+              <li><a href="{{ policy.url }}">{{ policy.title }}</a></li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Brand footer",
+  "tag": "footer",
+  "class": "section",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "brand_tagline", "label": "Brand tagline", "default": "Clean, simply" },
+    {
+      "type": "richtext",
+      "id": "brand_text",
+      "label": "Brand blurb",
+      "default": "<p>Effective cleaning, powered by nature. Made for Indian homes since day one.</p>"
+    },
+    { "type": "text", "id": "legal_name", "label": "Legal name", "info": "Shown in the copyright line. Defaults to the shop name." },
+    {
+      "type": "paragraph",
+      "content": "Policy links in the bottom bar come from Settings → Policies, so only policies you've actually published appear."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-6"
+    },
+    { "type": "header", "content": "Padding" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
+        { "type": "link_list", "id": "menu", "label": "Menu" },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "info": "Used when no menu is chosen — e.g. for contact details."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand footer",
+      "blocks": [{ "type": "column" }, { "type": "column" }, { "type": "column" }]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,33 @@
+{% comment %}
+  Renders the Purelane lockup: a circular chip holding an isometric cube
+  glyph, followed by the wordmark and its tagline. Used in the header and
+  the footer so both stay in sync.
+
+  The reference draws this mark rather than uploading a logo image, so it
+  stays crisp at any size and recolours with the theme. If a merchant
+  uploads a real logo in Theme settings, the header uses that instead.
+
+  Accepts:
+  - tagline: {String} small line under the wordmark (optional)
+  - name: {String} wordmark text, defaults to the shop name
+
+  Usage:
+  {% render 'brand-mark', tagline: 'Clean, simply' %}
+{% endcomment %}
+{%- liquid
+  assign mark_name = name | default: shop.name
+-%}
+<span class="brand-mark">
+  <span class="brand-mark__chip" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3 20.5 8v8L12 21 3.5 16V8L12 3Z" />
+      <path d="M12 12 20.5 8M12 12v9M12 12 3.5 8" />
+    </svg>
+  </span>
+  <span class="brand-mark__text">
+    <span class="brand-mark__name">{{ mark_name }}</span>
+    {%- if tagline != blank -%}
+      <span class="brand-mark__tagline">{{ tagline }}</span>
+    {%- endif -%}
+  </span>
+</span>

@@ -1,0 +1,16 @@
+{% comment %}
+  Renders an empty, JS-populated vertical dot rail that jumps between the
+  homepage's own sections and highlights whichever one is in view.
+
+  Built entirely from the live DOM at runtime (see assets/scroll-rail.js)
+  instead of a hardcoded anchor list, so it automatically follows whatever
+  sections actually exist in whatever order the merchant has them in —
+  add, remove, or reorder a section in the theme editor and the rail just
+  reflects it, nothing to keep in sync by hand.
+
+  Usage:
+  {% render 'scroll-rail' %}
+{% endcomment %}
+{{ 'component-scroll-rail.css' | asset_url | stylesheet_tag }}
+<nav class="scroll-rail" id="ScrollRail" aria-label="Section progress" hidden></nav>
+<script src="{{ 'scroll-rail.js' | asset_url }}" defer="defer"></script>
