@@ -1,0 +1,70 @@
+.categories {
+  display: grid;
+  gap: var(--pl-gap);
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 480px) {
+  .categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .categories {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Reference category cards are tall, product-led tiles: a large bottle
+   render filling the upper half, copy beneath — not an icon chip with a
+   label next to it. */
+.category {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+
+.category[aria-disabled='true'] {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.category__ph {
+  display: grid;
+  place-items: end center;
+  padding: 2.2rem 1.8rem 0;
+  min-height: 19rem;
+  color: rgb(var(--pl-accent));
+}
+
+.category__ph .product-icon {
+  height: 17.6rem;
+  width: auto;
+  filter: drop-shadow(0 1.6rem 2.4rem rgba(0, 74, 66, 0.14));
+}
+
+.category__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.6rem 1.8rem 2rem;
+}
+
+.category__heading {
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  font-size: 1.6rem;
+}
+
+.category__body {
+  font-size: 1.25rem;
+  opacity: 0.75;
+}
+
+.bundle-categories__empty {
+  text-align: center;
+  opacity: 0.6;
+}

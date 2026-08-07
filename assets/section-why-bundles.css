@@ -1,0 +1,64 @@
+/* Reference groups this section's heading and its four reasons inside a
+   single glass panel, rather than floating four separate cards. */
+.why-bundles__panel {
+  padding: clamp(2.4rem, 3.4vw, 3.6rem);
+}
+
+.reasons {
+  display: grid;
+  gap: 1.6rem;
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 560px) {
+  .reasons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .reasons {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.reason {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.4rem;
+}
+
+/* Circular chip with a green glyph, matching the reference - not the
+   rounded-square accent chip used elsewhere. */
+.reason__icon {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-bottom: 1.2rem;
+  background: radial-gradient(circle at 36% 28%, rgba(255, 255, 255, 0.9), rgba(var(--color-foreground), 0.1));
+  border: 1px solid rgba(var(--color-foreground), 0.14);
+  color: rgb(var(--pl-green));
+}
+
+.reason__heading {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-heading-family);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.reason__body {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  opacity: 0.78;
+  margin: 0;
+}
+
+.why-bundles__empty {
+  text-align: center;
+  opacity: 0.6;
+}

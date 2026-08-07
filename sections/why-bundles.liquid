@@ -1,0 +1,135 @@
+{{ 'purelane-shared.css' | asset_url | stylesheet_tag }}
+{{ 'section-why-bundles.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- assign reason_blocks = section.blocks | where: 'type', 'reason' -%}
+
+<section
+  id="why-bundles"
+  class="why-bundles color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+>
+  <div class="page-width">
+    <div class="why-bundles__panel pl-surface{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      {% render 'section-heading',
+        kicker: section.settings.kicker,
+        heading: section.settings.heading,
+        lede: section.settings.lede
+      %}
+
+      {%- if reason_blocks.size > 0 -%}
+        <div class="reasons">
+          {%- for block in reason_blocks -%}
+            <article class="reason" {{ block.shopify_attributes }}>
+              <span class="reason__icon">
+                {% render 'icon', name: block.settings.icon, size: 22 %}
+              </span>
+              {%- if block.settings.heading != blank -%}
+                <h3 class="reason__heading">{{ block.settings.heading | escape }}</h3>
+              {%- endif -%}
+              {%- if block.settings.body != blank -%}
+                <p class="reason__body">{{ block.settings.body | escape }}</p>
+              {%- endif -%}
+            </article>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <p class="why-bundles__empty">Add a reason block to feature it here.</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why bundles",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The smarter way to shop" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why bundles beat buying single" },
+    { "type": "text", "id": "lede", "label": "Supporting line" },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-6"
+    },
+    { "type": "header", "content": "Padding" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "reason",
+      "name": "Reason",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "coins", "label": "Coins" },
+            { "value": "box-check", "label": "Box with check" },
+            { "value": "star", "label": "Star" },
+            { "value": "truck", "label": "Truck" }
+          ],
+          "default": "coins"
+        },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Save up to 45%" },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Versus buying the same products separately"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why bundles",
+      "blocks": [
+        { "type": "reason", "settings": { "icon": "coins", "heading": "Save up to 45%", "body": "Versus buying the same products separately" } },
+        { "type": "reason", "settings": { "icon": "box-check", "heading": "One flat price", "body": "No calculators, no comparing carts" } },
+        { "type": "reason", "settings": { "icon": "star", "heading": "Curated by experts", "body": "Products picked to work well together" } },
+        { "type": "reason", "settings": { "icon": "truck", "heading": "Free shipping always", "body": "Included on every bundle, all India" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

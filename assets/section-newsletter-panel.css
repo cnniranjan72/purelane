@@ -1,0 +1,64 @@
+.newsletter-panel__inner {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: clamp(2.8rem, 4vw, 4rem) 3rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.newsletter-panel__heading {
+  margin: 1.2rem 0 0;
+}
+
+.newsletter-panel__inner .section-heading__lede {
+  margin: 1.2rem auto 0;
+}
+
+.newsletter-panel__inner .newsletter-form {
+  margin-top: 2.4rem;
+  width: 100%;
+  max-width: none;
+  align-items: center;
+}
+
+/* Reference pairs a pill input with a separate pill submit beside it,
+   rather than Dawn's arrow-inside-the-field treatment. */
+.newsletter-panel__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.newsletter-panel__input {
+  flex: 1 1 24rem;
+  max-width: 30rem;
+  min-height: 4.6rem;
+  padding: 0 18px;
+  font-size: 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(75, 58, 143, 0.18);
+  background: rgba(255, 255, 255, 0.72);
+  color: rgb(var(--color-foreground));
+}
+
+.newsletter-panel__input::placeholder {
+  color: rgba(var(--color-foreground), 0.5);
+}
+
+.newsletter-panel__input:focus-visible {
+  outline: 2px solid rgb(var(--pl-accent));
+  outline-offset: 2px;
+}
+
+.newsletter-panel__submit {
+  flex: 0 0 auto;
+}
+
+.newsletter-panel .newsletter-form__message {
+  justify-content: center;
+  margin-top: 1.2rem;
+}

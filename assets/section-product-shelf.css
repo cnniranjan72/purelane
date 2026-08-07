@@ -1,0 +1,101 @@
+/* One glass panel holds the whole shelf, with a split header: title left,
+   supporting copy right — the reference's `.range` treatment. */
+.product-shelf__panel {
+  padding: clamp(2.4rem, 3.4vw, 3.6rem);
+}
+
+.product-shelf__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.6rem;
+  margin-bottom: 2.4rem;
+}
+
+.product-shelf__title {
+  margin: 0.6rem 0 0;
+  max-width: 20ch;
+}
+
+.product-shelf__lede {
+  font-size: 14.5px;
+  line-height: 1.66;
+  opacity: 0.78;
+  max-width: 34ch;
+  margin: 0 0 0.4rem;
+}
+
+.product-shelf-rail {
+  display: flex;
+  gap: 2.6rem;
+  align-items: flex-end;
+  overflow-x: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0.4rem 1rem;
+  scrollbar-width: none;
+}
+
+.product-shelf-rail:focus-visible {
+  outline: 2px solid rgb(var(--pl-accent));
+  outline-offset: 4px;
+  border-radius: var(--pl-radius-sm);
+}
+
+.product-shelf-rail::-webkit-scrollbar {
+  display: none;
+}
+
+/* Reference's shelf is a bare row of bottles - no captions, with a swipe
+   hint underneath - so a very long product title can't distort the strip. */
+.product-shelf-rail__slide {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+
+.product-shelf-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-shelf-card__thumb {
+  display: block;
+  transition: transform 0.35s var(--pl-ease);
+}
+
+.product-shelf-card__thumb .product-icon {
+  height: 13.2rem;
+  width: auto;
+  filter: drop-shadow(0 0.9rem 1.4rem rgba(0, 74, 66, 0.14));
+}
+
+.product-shelf__hint {
+  font-size: 1.35rem;
+  opacity: 0.62;
+  margin: 0.4rem 0 0;
+}
+
+/* Reference staggers the shelf: alternating bottle heights rather than a
+   uniform row, so the strip reads as a shelf of different products. */
+.product-shelf-rail__slide:nth-child(even) .product-shelf-card__thumb .product-icon {
+  height: 11.4rem;
+}
+
+@media (hover: hover) {
+  .product-shelf-card:hover .product-shelf-card__thumb {
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-shelf-card:hover .product-shelf-card__thumb {
+    transform: none;
+  }
+}
+
+.product-shelf__empty {
+  text-align: center;
+  opacity: 0.6;
+}
