@@ -34,7 +34,7 @@
           {%- for block in ingredient_blocks -%}
             <div class="ingredients-grid__item" {{ block.shopify_attributes }}>
               <span class="ingredients-grid__icon">
-                {% render 'icon', name: block.settings.icon, size: 32 %}
+                {% render 'ingredient-icon', name: block.settings.icon, size: 56 %}
               </span>
               {%- if block.settings.name != blank -%}
                 <h3 class="ingredients-grid__name">{{ block.settings.name | escape }}</h3>
@@ -102,13 +102,13 @@
           "id": "icon",
           "label": "Icon",
           "options": [
-            { "value": "droplet", "label": "Droplet" },
-            { "value": "citrus", "label": "Citrus" },
-            { "value": "sprout", "label": "Sprout" },
-            { "value": "leaf", "label": "Leaf" },
-            { "value": "shield", "label": "Shield" }
+            { "value": "coconut", "label": "Coconut" },
+            { "value": "orange-peel", "label": "Orange peel" },
+            { "value": "soap-nut", "label": "Soap nut" },
+            { "value": "neem", "label": "Neem" },
+            { "value": "lemongrass", "label": "Lemongrass" }
           ],
-          "default": "leaf"
+          "default": "coconut"
         },
         { "type": "text", "id": "name", "label": "Name", "default": "Coconut" },
         {

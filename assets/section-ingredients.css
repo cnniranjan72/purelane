@@ -36,7 +36,7 @@
   place-items: center;
   height: 5.6rem;
   margin-bottom: 0.8rem;
-  color: rgb(var(--color-button));
+  color: rgb(var(--pl-accent));
 }
 
 .ingredients-grid__name {

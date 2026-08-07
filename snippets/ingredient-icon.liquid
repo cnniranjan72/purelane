@@ -1,0 +1,63 @@
+{% comment %}
+  Two-tone botanical illustrations for the Ingredients section.
+
+  The reference draws each ingredient as a small line illustration in two
+  colours - a deep teal for the main form and a warm orange for the accent
+  - rather than reusing the generic single-stroke UI icon set. These are
+  redrawn to the same construction so the section reads as illustration,
+  not iconography.
+
+  Accepts:
+  - name: {String} one of 'coconut', 'orange-peel', 'soap-nut', 'neem',
+    'lemongrass'
+  - size: {Number} pixel box (optional, default 56)
+
+  Usage:
+  {% render 'ingredient-icon', name: 'coconut' %}
+{% endcomment %}
+{%- liquid
+  assign box = size | default: 56
+-%}
+<svg
+  class="ingredient-icon"
+  width="{{ box }}"
+  height="{{ box }}"
+  viewBox="0 0 64 64"
+  fill="none"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {%- case name -%}
+    {%- when 'coconut' -%}
+      <path d="M32 18c-5-7-12-8-17-6 1 5 6 9 13 8" stroke="#d98b2b" />
+      <path d="M32 18c5-7 12-8 17-6-1 5-6 9-13 8" stroke="#d98b2b" />
+      <circle cx="32" cy="36" r="14" stroke="#12655a" />
+      <path d="M25 36c1.6 3.4 4.2 5.2 7 5.2s5.4-1.8 7-5.2" stroke="#12655a" />
+    {%- when 'orange-peel' -%}
+      <circle cx="30" cy="36" r="14" stroke="#12655a" />
+      <path d="M30 22v28M16 36h28" stroke="#12655a" opacity=".55" />
+      <path d="M20 26l7 7M40 26l-7 7M20 46l7-7M40 46l-7-7" stroke="#12655a" opacity=".4" />
+      <path d="M42 20c4-3 9-3 12 0-2 5-7 8-12 7-1-3 0-5 0-7Z" stroke="#d98b2b" />
+    {%- when 'soap-nut' -%}
+      <circle cx="24" cy="42" r="10" stroke="#12655a" />
+      <circle cx="42" cy="42" r="10" stroke="#12655a" />
+      <circle cx="33" cy="27" r="10" stroke="#12655a" />
+      <path d="M33 17c0-4 3-7 7-8" stroke="#d98b2b" />
+    {%- when 'neem' -%}
+      <path d="M14 50C24 44 38 34 50 16" stroke="#d98b2b" />
+      <path d="M22 42c-3-4-2-9 2-11 3 3 3 8-2 11Z" stroke="#12655a" />
+      <path d="M30 35c-3-4-2-9 2-11 3 3 3 8-2 11Z" stroke="#12655a" />
+      <path d="M38 27c-3-4-2-9 2-11 3 3 3 8-2 11Z" stroke="#12655a" />
+      <path d="M26 45c4-2 9 0 10 4-4 2-9 1-10-4Z" stroke="#12655a" />
+      <path d="M34 37c4-2 9 0 10 4-4 2-9 1-10-4Z" stroke="#12655a" />
+    {%- when 'lemongrass' -%}
+      <path d="M32 54V30" stroke="#12655a" />
+      <path d="M32 32C28 22 24 14 18 10c1 12 6 20 14 22Z" stroke="#0e4f46" />
+      <path d="M32 32c4-10 8-18 14-22-1 12-6 20-14 22Z" stroke="#0e4f46" />
+      <path d="M32 34c-5-6-9-9-14-10 3 8 8 12 14 10Z" stroke="#12655a" opacity=".7" />
+      <path d="M32 34c5-6 9-9 14-10-3 8-8 12-14 10Z" stroke="#12655a" opacity=".7" />
+  {%- endcase -%}
+</svg>
