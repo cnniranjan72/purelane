@@ -68,7 +68,7 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.82);
   border: 1px solid rgba(75, 58, 143, 0.16);
-  color: rgb(var(--pl-accent));
+  color: rgb(var(--pl-accent-text));
 }
 
 .shop-card__name {
@@ -91,7 +91,7 @@
 }
 
 .shop-card__rate b {
-  color: rgb(var(--pl-accent));
+  color: rgb(var(--pl-accent-text));
   font-weight: 700;
 }
 

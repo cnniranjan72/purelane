@@ -1,6 +1,6 @@
 # QA checklist
 
-Run against all eight sections (the five required, plus the three bonus
+Run against all thirteen sections (the five required, plus the eight bonus
 sections) before calling any of them done. Verified live against the
 published theme and real store data — not just in code review. ✅ =
 verified live, ⚠️ = verified with a noted caveat.
@@ -130,6 +130,50 @@ specific cause and fixed it — see the full writeup in
 - Bundle category cards switched from generic icons to each category's
   real product image, for visual consistency with every other product
   mention on the page.
+
+## Release QA — measured, not eyeballed
+
+Everything below was run against the published theme and reports real
+numbers rather than a tick.
+
+**Responsive — 0px overflow at every breakpoint.** Tested by rendering the
+live page inside same-origin iframes at each width (media queries respond
+to iframe width, so this exercises the real breakpoints; the environment's
+window-resize wasn't reliable):
+
+| Width | 375 | 768 | 1024 | 1280 | 1440 | 1920 |
+|---|---|---|---|---|---|---|
+| Horizontal page overflow | 0px | 0px | 0px | 0px | 0px | 0px |
+| Elements escaping the viewport | 0 | 0 | 0 | 0 | 0 | 0 |
+
+At 375px the layout also *behaves*, not just fits: hero, pillars,
+reasons, categories and footer collapse to one column, the shop grid to
+two, and the hero trust badges drop out of their floating column back to
+an inline chip row.
+
+**Theme editor — hide / remove / duplicate / reorder, all in one pass.**
+Applied simultaneously to the live template: Ingredients hidden,
+Why-bundles removed outright, Trust bar duplicated, and Reviews moved to
+the end. Result: every remaining section rendered, **zero gaps or
+overlaps** between section bounding boxes, **no zero-height sections**,
+and the scroll rail rebuilt itself from 13 dots to 12 without a stale
+anchor. Template restored afterwards and re-verified.
+
+**Console — clean.** Zero JS errors or exceptions on load.
+
+**Links and structure.** 0 dead links (`href` missing or `#`), 149
+focusable elements, exactly 1 `<h1>`, 0 heading-level skips.
+
+**Edge cases.** The 160-character product title wraps without overflowing
+its card; the sold-out product renders a correctly `disabled` button
+reading "Sold out"; no-image products are covered by design, since all
+product art is drawn rather than photographic.
+
+**Merchant editability sweep.** Audited every section's markup for
+customer-facing strings that weren't settings. Three were found and moved
+into the schema: the bundle tier quantity label ("Products"), the shop
+grid's "View all", and the combo card's "Shop bundle". Confirmed no
+hardcoded product handles or prices anywhere in Liquid.
 
 ## Bugs found and fixed this pass
 

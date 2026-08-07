@@ -24,6 +24,40 @@ happened, including the parts that didn't work first try.
 
 ## Where it failed, and what caught it
 
+**The biggest one: building against CSS that never renders.** The first
+submission was rejected for not visually matching the prototype. The
+cause wasn't sloppiness in any single section — it was that
+`reference/purelane-homepage.html` contains *two* `:root{}` blocks, and
+the second (commented `VERSION 2 - BRAND COLOURS (light)`) overrides the
+first. Reading the file top-down, as a model does, finds the dark palette
+first and treats it as the answer. Every downstream decision inherited
+that error. What eventually caught it was refusing to read the file at
+all: serving it over `python -m http.server` and pulling
+`getComputedStyle` off the rendered page. That one change turned a month
+of "it still looks different" into a measurable diff — headings were
+24px where the reference computes 54px, buttons weren't uppercase, and
+the accent and button colours were two different roles I'd collapsed into
+one variable. **The rule I'd keep: for any visual-fidelity work, the
+source of truth is the rendered page, never the stylesheet.**
+
+**A second instance of the same class of error.** Once colours were
+right, the hero's three bottles still collided. I repositioned them three
+times before measuring the reference's own geometry and finding it ships
+*two* bottle silhouettes — tall/slim (aspect 0.32) for the hero, squat
+(0.63) for cards. I'd used the squat one everywhere, so at hero scale
+each bottle was ~228px wide instead of ~116px. No amount of repositioning
+fixes a shape problem. Measuring first would have found it immediately.
+
+**Bugs that only surfaced under a real checklist.** Working through a
+release checklist at the end found three defects that neither visual
+review nor `shopify theme check` had caught: a duplicate `<h1>` (Dawn
+wraps the logo in one on the index template, and the hero adds another),
+a heading-level skip, and a `SyntaxError: Identifier 'HeroStage' has
+already been declared` thrown on every page load once two sections both
+emitted the same script tag. All three were invisible in the browser.
+Static analysis and screenshots don't catch document-structure or console
+errors — you have to query the live DOM and read the console.
+
 **A CSV import that silently misaligned columns.** Generating a Shopify
 product CSV from memory of the column schema is the kind of task an LLM
 is confidently wrong about — I wrote a header/row set that *looked* right,

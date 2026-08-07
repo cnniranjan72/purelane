@@ -45,7 +45,7 @@
   border-radius: 999px;
   background: rgba(var(--pl-accent), 0.16);
   border: 1px solid rgba(var(--pl-accent), 0.34);
-  color: rgb(var(--pl-accent));
+  color: rgb(var(--pl-accent-text));
   margin-bottom: 1.4rem;
 }
 

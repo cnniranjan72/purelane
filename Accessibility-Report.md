@@ -61,26 +61,78 @@ Computed live against the published theme (WCAG relative-luminance
 formula, run against the actual rendered `getComputedStyle` colors, not
 hex-math on paper):
 
-| Pair | Ratio | AA (4.5:1) | AAA (7:1) |
-|---|---|---|---|
-| Body text on scheme-6 background (`#ECE6F7` on `#17102B`) | **17.23:1** | ✅ | ✅ |
-| Accent color on scheme-6 background (`#F0A03C` on `#17102B`) | **9.80:1** | ✅ | ✅ |
-| Button text on accent background (`#17102B` on `#F0A03C`) | **8.55:1** | ✅ | ✅ |
+Re-measured after the palette was corrected to the reference's real
+(light) scheme — the earlier table described the dark palette this build
+no longer uses. Large text is held to 3:1 and normal text to 4.5:1, per
+WCAG's own size thresholds.
+
+| Element | Size | Ratio | Needs | |
+|---|---|---|---|---|
+| Body copy | 17.5px | **16.28:1** | 4.5 | ✅ |
+| Section headings | 54px | **18.33:1** | 3 | ✅ |
+| Kickers | 14px | **16.28:1** | 4.5 | ✅ |
+| Hero accent word "LASTS" | 112px | **3.91:1** | 3 | ✅ |
+| Bundle tier price | 26px | **3.91:1** | 3 | ✅ |
+| Hero price label | 10px | **6.04:1** | 4.5 | ✅ |
+| Shop discount | 12.5px | **6.04:1** | 4.5 | ✅ |
+| Combo discount pill | 10px | **5.01:1** | 4.5 | ✅ |
+| Combo "You save" pill | 9.5px | **6.04:1** | 4.5 | ✅ |
+| Bundle tier tag | 10px | **5.01:1** | 4.5 | ✅ |
+| Primary button label on teal gradient | 12.5px | **5.74:1** worst stop | 4.5 | ✅ |
+| Trust bar label | 11px | **16.28:1** | 4.5 | ✅ |
+| Footer link | 14.5px | **16.28:1** | 4.5 | ✅ |
+
+**A real failure this measurement caught.** The reference's accent
+(`#b8701c`) sits at **3.2–3.9:1** on these light surfaces. That clears the
+3:1 bar for the huge hero word and the 26px tier price, but not the 4.5:1
+bar for the small discount pills, save labels, price kickers and tier
+tags — four small-text elements were failing AA. Rather than shift the
+brand colour (and lose the visual match on the most visible element on
+the page), a second token `--pl-accent-text` (`#8f5514`) now carries
+*small* accent text only; it measures ≥5:1 everywhere it's used. The
+large decorative uses keep the reference's exact hue.
+
+The button-label figure is measured against both gradient stops, since a
+single `background-color` lookup returns the page background and reports
+a meaningless 1.04:1.
 
 ## Keyboard navigation — verified live
 
 Tab order was walked on the published theme, not just reasoned about
 from markup:
 
-- **52 focusable elements** on the homepage, starting with Dawn's
-  built-in "Skip to content" link, then logo → main nav (all 9 items,
-  including the newly-added section anchors) → search → account → cart →
-  hero CTAs → pillar links → shop grid.
+- **149 focusable elements** on the homepage (up from 52 as sections were
+  added), starting with Dawn's built-in "Skip to content" link, then the
+  brand mark → main nav → search → account → cart → hero CTAs → section
+  content in visual order.
 - The one `disabled` button on the page (Herbal Floor Cleaner's "Sold
   out") is correctly excluded from the tab sequence — it neither receives
   focus nor sits in a confusing gap in the order.
 - Visible focus ring confirmed on-screen after real Tab key presses
   (screenshot-verified), not just present in CSS.
+- **Zero dead links** — every `<a>` on the page has a real `href`; none
+  are `#` or empty placeholders.
+
+## Document structure — two real defects found and fixed
+
+Both were caught by auditing the live DOM rather than reading markup:
+
+- **Two `<h1>` elements.** Dawn wraps the header logo in `<h1>` on the
+  index template, and the hero contributes its own. Two `<h1>`s on one
+  page is both an SEO and a screen-reader-navigation problem. The header
+  lockup is now a `<div>` — it's a link home, not the page's heading —
+  leaving the hero as the single `<h1>`. Safe across templates because
+  Dawn's product, collection, page, blog, search and 404 templates each
+  supply their own `<h1>`.
+- **A heading-level skip (h2 → h4).** The stat labels in "Why it works"
+  were `<h4>` directly under the section's `<h2>`. Now `<h3>`.
+
+Verified after: **1 `<h1>`, 0 level skips** across all 54 headings.
+
+Where the reference has no visible heading (the "How it works" pillar
+row), the section still carries a visually-hidden `<h2>` rather than
+shipping a headingless section — matching the design without leaving a
+hole in the document outline.
 
 ## Not yet verified
 

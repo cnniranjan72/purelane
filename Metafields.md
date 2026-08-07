@@ -4,13 +4,19 @@
 
 Namespace/key match the official **Shopify Product Reviews** app so the
 shop card's rating line works immediately if that app is installed later,
-with zero re-mapping in Liquid — this is what `snippets/card-product.liquid`
-(Dawn's own, unmodified) already reads via `show_rating`.
+with zero re-mapping in Liquid.
 
 | Namespace.key | Type | Used by |
 |---|---|---|
-| `reviews.rating` | Rating (scale 1–5) | `snippets/card-product.liquid` rating line |
+| `reviews.rating` | Rating (scale 1–5) | `snippets/shop-card.liquid` rating line |
 | `reviews.rating_count` | Integer | Same, as "· 237 reviews" |
+
+The card reads these directly rather than through Dawn's `show_rating`
+flag, because the shop grid now uses a purpose-built card — see
+[Architecture.md](Architecture.md). The rating line renders nothing at
+all when the metafields are absent, which is the current state: no
+reviews app is installed, so no rating data exists to show. It is not a
+"★ 0.0" placeholder, and no review counts are invented to fill the gap.
 
 **Implementation note:** `reviews.*` turned out to be a Shopify-*reserved*
 namespace — the Admin UI refuses to let a store manually create a

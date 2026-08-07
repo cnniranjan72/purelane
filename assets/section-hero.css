@@ -26,6 +26,8 @@
   margin: 0 0 2rem;
 }
 
+/* Keeps the reference's exact accent: at 112px this is "large text", so
+   the 3:1 threshold applies and it measures 3.91:1. */
 .hero__accent {
   color: rgb(var(--pl-accent));
 }
@@ -38,7 +40,7 @@
   gap: 13px;
   margin: 0 0 20px;
   max-width: 270px;
-  color: rgb(var(--pl-accent));
+  color: rgb(var(--pl-accent-text));
 }
 
 .hero__rule i {
@@ -83,7 +85,7 @@
 }
 
 .badge-list__item .icon {
-  color: rgb(var(--pl-accent));
+  color: rgb(var(--pl-accent-text));
 }
 
 /* On wide viewports, float the badge stack as vertical glass cards
@@ -303,7 +305,7 @@
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgb(var(--pl-accent));
+  color: rgb(var(--pl-accent-text));
 }
 
 .hero__dots {

@@ -131,7 +131,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgb(var(--pl-accent));
+  color: rgb(var(--pl-accent-text));
   margin: 0 0 0.4rem;
 }
 

@@ -11,11 +11,20 @@ What was done, section by section.
   real `sizes`/`widths` set so the browser fetches an appropriately-sized
   file rather than a full-resolution one. Subsequent hero slides (if any)
   load `loading="lazy"`.
-- Shop grid reuses Dawn's `card-product` snippet unmodified, which already
-  ships responsive `srcset`/`sizes` and lazy-loads every card past the
-  first row (`lazy_load: forloop.index > columns_desktop`).
-- Combo card thumbnails load `loading="lazy"` — they're below the fold on
-  first paint for most viewports.
+- Product artwork is **inline SVG**, not raster images, so the shop grid,
+  hero, shelf, category tiles and bundle tier graphics cost zero image
+  requests and zero layout shift — the `viewBox` reserves the box before
+  paint. This replaced Dawn's `card-product` snippet (see
+  [Architecture.md](Architecture.md)); the trade is a slightly larger HTML
+  document against 20+ fewer round trips and no `srcset` decode work.
+- The SVGs are emitted per instance rather than referenced via `<use>`, so
+  the same bottle repeats in the document. It compresses well (the shapes
+  are near-identical, which is ideal for gzip/brotli) but a `<symbol>` +
+  `<use>` sprite would be the next optimisation if the catalogue grew much
+  past the current 11 products — see
+  [Future-Improvements.md](Future-Improvements.md).
+- Any real merchant photography added later still flows through Dawn's
+  responsive `image_tag` helpers, which the combo thumbnails already use.
 
 ## CSS/JS
 

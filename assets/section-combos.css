@@ -40,7 +40,7 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(75, 58, 143, 0.16);
-  color: rgb(var(--pl-accent));
+  color: rgb(var(--pl-accent-text));
 }
 
 .combo-card__flag {
@@ -94,7 +94,7 @@
   flex: 0 0 auto;
   font-weight: 800;
   font-size: 1.2rem;
-  color: rgb(var(--pl-accent));
+  color: rgb(var(--pl-accent-text));
   padding: 0 0.2rem;
 }
 

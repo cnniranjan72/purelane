@@ -14,6 +14,13 @@
      which is reserved for real <button>/.button elements below; every
      decorative use in this file and the section CSS uses this instead. */
   --pl-accent: 184, 112, 28;
+  /* The reference's accent measures 3.2-3.9:1 on these light surfaces —
+     fine for the huge hero word and 26px tier prices (large text needs
+     3:1) but short of the 4.5:1 AA floor for the small discount pills,
+     save labels and price kickers. This darkened variant measures >=5:1
+     on every one of those and is used for small accent text only, so the
+     large decorative uses keep the reference's exact hue. */
+  --pl-accent-text: 143, 85, 20;
   /* A third, distinct role: verified-checkmark green, used for the
      reviewer checkmark, tier feature checkmarks, and trust-bar icons —
      confirmed via a screen recording of the reference, not guessed. */
@@ -262,7 +269,7 @@
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgb(var(--pl-accent));
+  color: rgb(var(--pl-accent-text));
   padding: 0.4rem 0.9rem;
   border-radius: 999px;
   background: rgba(var(--pl-accent), 0.16);

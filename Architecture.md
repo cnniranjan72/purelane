@@ -33,7 +33,7 @@ is that reasoning per section.
 | Content | Location | Why |
 |---|---|---|
 | Products shown | Real Shopify **collection**, picked via section setting (`collection` picker) | This is the whole point of "real Shopify data, not hardcoded." The section renders whatever is in the collection — sold out, missing image, and long-title products all flow through the exact same Liquid Dawn already ships, with the exact same empty-state handling. |
-| Card markup | Dawn's `snippets/card-product.liquid`, reused directly | Dawn's card already handles sold-out badges, on-sale badges, missing-image placeholders, responsive `srcset`, and long-title wrapping correctly and accessibly. Rewriting it to match the prototype's bespoke card CSS would be strictly worse engineering — same output, more surface area to maintain. We reskin it with CSS variables, not a rewrite. |
+| Card markup | `snippets/shop-card.liquid` (purpose-built) | Started on Dawn's `card-product.liquid` and reskinned it, which was the right call while the cards showed photography. It stopped being right once the store's seeded art turned out to be flat colour blocks with the product name burnt into the image — Dawn's card renders `featured_media` and has no seam for substituting the drawn bottle the reference uses. The replacement is deliberately small: shot + tag pill, title, rating, price, add-to-cart. It keeps the parts that actually matter — a real `<product-form>` AJAX add-to-cart, the disabled sold-out state, and the empty-collection placeholder — rather than reimplementing Dawn's cart plumbing. |
 | "Best seller" / "New" / "Top rated" pill | Product **tags** (`best-seller`, `new`, `top-rated`) | Native field merchants already use for organization and filtering. A metafield would duplicate what tags already do well; tags are also filterable/searchable for free. |
 | Star rating + review count | Product **metafield**, `reviews.rating` / `reviews.rating_count` (the same namespace the official Shopify Product Reviews app writes to) | No native product field for this. Using the Product Reviews app's namespace means the section works immediately if the merchant installs that app, with no re-mapping. If absent, the rating block renders nothing — not a broken "★ 0.0". |
 
@@ -69,6 +69,9 @@ several real products with its own price.
 |---|---|---|
 | Brand colors (ink/deep/brand/accent) | Theme setting — new **color scheme** added to `config/settings_data.json` | Dawn's color-scheme system is exactly built for "brand palette, reused as a named scheme across sections." Hardcoding hex in section CSS would fight the theme's own settings UI and break dark/alternate-scheme support other sections rely on. |
 | Icons (leaf, shield, sparkle, etc.) | `snippets/icon.liquid`, keyed by name | See below. |
+| Top promo ticker | `sections/marquee-bar.liquid` in the header group | Dawn's stock announcement bar is a *slide carousel* — it fades between messages and cannot scroll continuously, which is what the reference does. Rather than fight it, this is a small purpose-built section using the reference's own technique: the message list rendered twice in one flex track with `translateX(-50%)`, which loops seamlessly and needs no JS at all. Messages remain merchant-editable blocks. |
+| Footer | `sections/brand-footer.liquid` replacing Dawn's stock footer | Dawn's footer is built around a newsletter block, payment icons and social links; the reference's is a four-column brand/link/contact layout with a legal bar. Rewriting was less code than overriding. Two deliberate calls: link columns point only at destinations that actually resolve on this store (the reference's *Kitchen / Laundry / Skin / Sustainability / FAQs* would all be dead links here), and the legal-bar policy links come from `shop.policies`, so a link can only render once that policy is genuinely published. |
+| Section progress rail | `snippets/scroll-rail.liquid` | See below — the one place this build deliberately diverges from the reference's implementation. |
 
 ## Reusable snippets
 
@@ -90,6 +93,29 @@ brand.
   `panel-head` block, currently pasted 4 times with drifting whitespace.
 - **`snippets/badge-list.liquid`** — renders a block-driven row of
   icon+label badges, used by the hero and (optionally) trust-bar content.
+
+Added while matching the reference's artwork and chrome:
+
+- **`snippets/product-icon.liquid`** — the drawn bottle. The reference's
+  "product photography" is one parametric SVG recoloured per product, so
+  it's reproducible as a snippet rather than an asset. Ships **two**
+  profiles because the reference has two: a tall slim bottle for the hero
+  (aspect ~0.32) and a squat one for cards (~0.63). Used by the hero,
+  shop cards, product shelf, bundle categories, combo thumbnails and the
+  bundle tier count graphic.
+- **`snippets/ingredient-icon.liquid`** — five two-tone botanical
+  illustrations (coconut, orange peel, soap nut, neem, lemongrass). Kept
+  separate from `icon.liquid` because these are illustrations with two
+  fixed brand colours, not single-stroke `currentColor` UI glyphs.
+- **`snippets/shop-card.liquid`** — the product card described above.
+- **`snippets/brand-mark.liquid`** — cube chip + wordmark + tagline,
+  shared by the header and footer so the lockup can't drift between them.
+- **`snippets/scroll-rail.liquid`** (+ `assets/scroll-rail.js`) — the
+  fixed dot rail. Builds itself from the live DOM at runtime rather than
+  from a hardcoded anchor list, which is the one place this build fixes a
+  defect in the reference rather than copying it: the prototype's rail is
+  wired to seven fixed IDs, so reordering or removing a section leaves a
+  dot pointing nowhere.
 
 **Scroll-reveal:** Dawn already ships a theme-editor-safe reveal-on-scroll
 system (`assets/animations.js` + the `.scroll-trigger.animate--slide-in`

@@ -42,7 +42,19 @@ What I'd do next with another week, roughly in priority order.
   Navigation Timing measurements from an authenticated session — is in
   [Performance-Notes.md](Performance-Notes.md).
 - Real product photography would also let LCP get measured meaningfully;
-  placehold.co placeholders aren't representative of final asset weight.
+  the drawn bottle art isn't representative of final asset weight.
+- **Move the product artwork to a `<symbol>` + `<use>` sprite.** The
+  bottle SVG is currently emitted per instance, so the same shapes repeat
+  through the document. It gzips well and costs zero image requests, but
+  a single sprite defined once and referenced by `<use>` would cut the
+  HTML meaningfully if the catalogue grew well past the current 11
+  products. Not worth the indirection at this size.
+- **Star ratings on shop cards.** The reference hardcodes "★ 4.8 · 237
+  reviews". `reviews.rating` is a Shopify-reserved namespace populated by
+  a reviews app, and inventing counts on a live storefront would be
+  fabricating data — so the markup is wired but renders nothing until an
+  app supplies it. Installing Shopify Product Reviews (or Judge.me) makes
+  it appear with no code change.
 - Keyboard-test the combos rail and reviews marquee with a screen reader
   (VoiceOver/NVDA), not just the accessibility-tree reasoning used here.
 

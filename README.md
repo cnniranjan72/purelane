@@ -33,7 +33,7 @@ flowchart TD
     News["Newsletter panel — bonus"]
     Footer["Footer — newsletter, links"]
 
-    Header --> Hero --> Ing --> How --> Why --> Combos --> Bundles --> Shop --> Shelf --> WhyB --> Cats --> Trust --> Reviews --> News --> Footer
+    Header --> Hero --> Reviews --> Ing --> How --> Why --> Combos --> Bundles --> Shop --> Shelf --> WhyB --> Cats --> Trust --> News --> Footer
 
     classDef required fill:#4B3A8F,color:#fff,stroke:#241A3D
     classDef bonus fill:#F4F0FB,color:#241A3D,stroke:#4B3A8F
@@ -53,6 +53,7 @@ root-cause writeup.
 | # | Section | id | File |
 |---|---|---|---|
 | ① | Hero | `#hero-{id}` | `sections/hero.liquid` |
+| ⑤ | Reviews rail | `#reviews` | `sections/reviews-rail.liquid` |
 | — | Ingredients *(bonus)* | `#ingredients` | `sections/ingredients.liquid` |
 | — | How it works *(bonus)* | `#how-it-works` | `sections/how-it-works.liquid` |
 | — | Why it works *(bonus)* | `#why-it-works` | `sections/why-it-works.liquid` |
@@ -63,8 +64,10 @@ root-cause writeup.
 | — | Why bundles *(bonus)* | `#why-bundles` | `sections/why-bundles.liquid` |
 | — | Bundle categories *(bonus)* | `#bundle-categories` | `sections/bundle-categories.liquid` |
 | — | Trust bar *(bonus)* | `#trust-bar` | `sections/trust-bar.liquid` |
-| ⑤ | Reviews rail | `#reviews` | `sections/reviews-rail.liquid` |
 | — | Newsletter panel *(bonus)* | `#newsletter-panel` | `sections/newsletter-panel.liquid` |
+
+Reviews sits second, immediately under the hero, because that's where the
+reference puts its social proof — not near the footer.
 
 Reusable pieces shared across all thirteen: `snippets/icon.liquid`,
 `snippets/price-tag.liquid`, `snippets/section-heading.liquid`,
@@ -76,9 +79,19 @@ icon+heading+body block pattern; the newsletter panel reuses Dawn's real
 `{% form 'customer' %}` mechanism already proven in the footer — none of
 the five new sections invent a new pattern from scratch.
 
-Two more pieces sit outside the section list above because they're
+Four more pieces sit outside the section list above because they're
 page-furniture, not homepage sections:
 
+- **Brand mark** (`snippets/brand-mark.liquid`) — the cube chip +
+  wordmark + tagline lockup, shared by the header and footer so the two
+  can't drift apart. Drawn rather than an uploaded image, so it stays
+  crisp at any size and recolours with the theme; if a merchant uploads a
+  real logo in Theme settings, the header prefers that instead.
+- **Brand footer** (`sections/brand-footer.liquid`) — four-column
+  brand/link/contact layout with a legal bar, replacing Dawn's
+  newsletter-and-payment-icons footer. Policy links come from
+  `shop.policies`, so a link only appears once that policy is actually
+  published — no dead "Refunds" link.
 - **Marquee bar** (`sections/marquee-bar.liquid`, lives in the header
   group) — a real continuous-scroll ticker, not Dawn's stock fade/slide
   announcement bar. Same CSS technique the reference itself uses: the
